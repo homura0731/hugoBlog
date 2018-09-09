@@ -9,32 +9,32 @@ tags: [Hexo,bash]
 
 # 常用指令集
 啟動伺服器
-``` bash
+``` shell
 $ hexo server 
 ```
 建立新文章
-``` bash
+``` shell
 $ hexo new "文章名"
 ```
 產生後並佈署到github(第一次用時一直只有產生，結果因為檔案沒更新一直傳不上去..)
-``` bash
+``` shell
 $ hexo deploy --generate
 ```
 
 hexo套件安裝(例如我的themes需要hexo-until)
-``` bash
+``` shell
 $ npm install --save hexo-util
 ```
 
 複製themes
-``` bash
+``` shell
 $ git clone github位置 themes/主題資料夾名稱
 ```
 
 # 設定相關
 ## 新增分類頁面(標籤同方法)
 1.新增一個頁面
-``` bash
+``` shell
 $ hexo new page categories
 ```
 2.設定頁面屬性

@@ -58,7 +58,7 @@ tags: [C#,Google-API,JavaScript,reCAPTCHA]
 我們需要POST三個值到[https://www.google.com/recaptcha/api/siteverify](https://www.google.com/recaptcha/api/siteverify)這位置上，然後官方丟回驗證是否成功的JSON字串回來。
 然後就來開始實作吧!
 
-``` csharp
+``` cs
 // 確認是否有Token回傳回來
 if (Request.Form["captchaToken"] == "")
 {

@@ -10,7 +10,7 @@ tags: [Cordova,JavaScript]
 # 實作
 ## 幫專案添加android platform
 使用以下指令
-``` bash
+``` shell
 $ cordova platform add android
 ```
 ![添加android platform](1.png)
@@ -18,7 +18,7 @@ $ cordova platform add android
 ![添加android platform 成功](2.png)
 ## 使用android 模擬器模擬
 使用以下指令
-``` bash
+``` shell
 $ cordova run android
 ```
 然後應該會看到以下錯誤訊息，因為還沒設置android sdk的path
@@ -34,36 +34,32 @@ $ cordova run android
 
 設置完成後記得關掉命令提示字元(終端機)，因為他不會自己重讀path一定要重開，我第一次就笨笨的設好了為啥還抓不到...
 然後在執行一次剛剛的指令
-``` bash
+``` shell
 $ cordova run android
 ```
 應該會有抓不完jdk，然後又丟新錯誤給我
 ![path設定3](7.png)
 ## 添加licenses
 這步我記得在win7是沒這問題，不知道是不是新版sdk有什麼問題，google了一下用這2行指令解決
-``` bash
+``` shell
 $ mkdir "%ANDROID_HOME%\licenses"
 $ echo |set /p="8933bad161af4178b1185d1a37fbf41ea5269c55" > "%ANDROID_HOME%\licenses\android-sdk-license"
 ```
 然後正常來說應該就行了，但是win10很討厭把資料夾的權限鎖住了，造成以下錯誤訊息
 ![系統權限](8.png)
 ## 打開sdk資料夾權限
-這邊先用系統管理員權限打開cmd，然後指向android-sdk根目錄，輸入以下指令
-``` bash
-$ chmod 777 Android
-```
-輸入完後就能修改資料夾權限了
+修改Windows資料夾權限給Cordova使用
 
 ## 執行及編譯成apk
 到這步我是沒問題了，如果還有問題可能是sdk的platform設定有問題，個人公司的win7碰到的，有問題去目錄底下的AVD Manager.exe設定一下目標平台
 然後再執行一次
-``` bash
+``` shell
 $ cordova run android
 ```
 成功後如下圖結果
 ![模擬成功](9.png)
 然後編譯apk指令
-``` bash
+``` shell
 $ cordova build android
 ```
 編譯後可以再專案目錄底下找到apk

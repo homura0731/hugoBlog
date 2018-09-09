@@ -11,24 +11,24 @@ tags: [Hugo]
 # 指令
 ## 新增文章
 hugo原生是產在posts底下，even主題是post
-``` bash
+``` shell
 $ hugo new /post/文章名稱.md
 ```
 
 ## 新增頁面的方法
 直接產生在Content底下會變成新頁面
-``` bash
+``` shell
 $ hugo new 頁面名稱.md
 ```
 # Hugo文章標籤
 ## 草稿模式
 如果開啟的話，發行時是不會看到的
-```md
+``` md
 draft: true
 ```
 ## 分類和標籤
 跟Hexo有點不太一樣，他是用陣列的方式
-```md
+``` md
 categories: [Hugo,Blog]
 tags: [Hugo,Blog]
 ```

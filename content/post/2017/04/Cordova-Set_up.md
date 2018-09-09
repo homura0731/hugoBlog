@@ -18,19 +18,19 @@ Cordova是一種讓網頁工程師不需要學會手機程式原生語言(例如
 
 ## 安裝Cordova
 首先開啟自己的cmd安裝，Mac OS可能會有權限問題 npm前面記得加sudo
-``` bash
+``` shell
 $ npm install -g cordova
 ```
 裝好之後就能使用以下指令創建專案了
-``` bash
+``` shell
 $ cordova create 專案名稱
 ```
 再來我們要幫專案加入使用平台，我們一般會先用瀏覽器看，所以我們先裝browser這個platform，還有不要忘記指向自己的專案資料夾底下
-``` bash
+``` shell
 $ cordova platform add browser
 ```
 然後就能用我們的瀏覽器來跑了
-``` bash
+``` shell
 $ cordova run browser
 ```
 執行成功會自動開啟瀏覽器，然後按F12開啟開發人員模式，切成手機模式瀏覽，如下圖

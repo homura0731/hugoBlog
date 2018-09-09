@@ -13,27 +13,28 @@ tags: [JavaScript, Lodash, debounce]
 
 > 註：debounce可以翻防抖動或防反動都行
 
-# 實作
+# 程式實作
 ## 引用Lodash
 引入CDN
 ```html
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 ```
 NPM安裝
-``` bash
+``` shell
 $ npm i --save lodash
 ```
 ```js
 var _ = require('lodash');
 ```
-## 實作
+## 建立HTML物件
 先做出一個`Button`和一個訊息`DIV`
 ```html
 <button id="showBtn" type="button">顯示訊息</button>
 <div id="Message"></div>
 ```
+## 建立Debounce事件
 寫一個函數顯示訊息，並使用`_.debounce()`延遲執行訊息消失事件
-```js
+``` js
 var showBtn = document.getElementById('showBtn');
 var msg = document.getElementById('Message');
 
@@ -44,7 +45,10 @@ var hideMsg = function(){
 
 // 延遲一秒消失
 var debounce = _.debounce(hideMsg, 1000);
+```
 
+## 建立Button Click
+``` js
 // 點擊事件
 showBtn.onclick = function(){
     msg.innerHTML = '點擊成功';
@@ -69,7 +73,7 @@ showBtn.onclick = function(){
     
     var debounce = _.debounce(hideMsg, 2000);
     showBtn.onclick = function(){
-        msg.innerHTML = '點擊成功';
+        msg.innerHTML = '<blockquote><p>點擊成功</p></blockquote>';
         debounce();
     };
 </script>
@@ -79,6 +83,5 @@ showBtn.onclick = function(){
 原來是`_.debounce()`要包在function裡面不然他就不會跑了，就這樣鬼打牆好久，不過有學到東西是最重要的。
 
 # 參考＆延伸閱讀
-[官方文件](https://lodash.com/docs/4.17.10#debounce)
-
-[lodash debounce實現](https://github.com/lishengzxc/bblog/issues/7)
+- [官方文件](https://lodash.com/docs/4.17.10#debounce)
+- [lodash debounce實現](https://github.com/lishengzxc/bblog/issues/7)

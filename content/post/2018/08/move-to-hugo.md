@@ -23,22 +23,32 @@ tags: [Hugo]
 剩下讓大家自己去體驗一下吧!!!
 
 # Gitpage從Hexo更換到Hugo
-其實很簡單只要把發行的檔案更換成Hugo的就行了
-不過因為我們Gitpage上面已經有檔案
-所以不能直接傳上去
-要先拉下來
-```bash
-$ git pull https://github.com/帳號/帳號.github.com
+其實很簡單只要把發行的檔案更換成Hugo的就行了，不過因為我們Gitpage上面已經有檔案，所以不能直接傳上去。
+
+首先先在hugo專案底下建立pulic資料夾
+``` shell
+$ mkdir public
 ```
-然後資料夾改名成public丟到hugo專案底下
+進入資料夾，並初始化
+``` shell
+$ cd public
+$ git init
+```
+再`git pull`下來
+``` shell
+$ git pull https://github.com/帳號/帳號.github.com.git
+```
+
 hugo 產生發行檔
-```bash
+``` shell
+cd ../
 $ hugo -t 主題名稱
 ```
-路徑指到public裡,推上Gitpage
+路徑指到public裡，推上Gitpage
 
-```bash
+``` shell
 $ cd public
+$ git remote add origin https://github.com/帳號/帳號.github.com.git
 $ git add .
 $ git commit -m "隨便打"
 $ git push origin master
