@@ -12,13 +12,18 @@ tags: [Hugo]
 ## 新增文章
 hugo原生是產在posts底下，even主題是post
 ``` shell
-$ hugo new /post/文章名稱.md
+$ hugo new post/文章名稱.md
 ```
 
 ## 新增頁面的方法
 直接產生在Content底下會變成新頁面
 ``` shell
-$ hugo new 頁面名稱.md
+$ hugo new <頁面名稱.md>
+```
+
+## 發行檔產生
+``` shell
+$ hugo -t <主題名稱>
 ```
 # Hugo文章標籤
 ## 草稿模式

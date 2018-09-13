@@ -41,7 +41,7 @@ $ git pull https://github.com/帳號/帳號.github.com.git
 
 hugo 產生發行檔
 ``` shell
-cd ../
+$ cd ../
 $ hugo -t 主題名稱
 ```
 路徑指到public裡，推上Gitpage
