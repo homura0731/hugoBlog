@@ -7,23 +7,23 @@ tags: [2019鐵人賽]
 ---
 
 1. ASP.Net Core SignalR 簡介
-2. SignalR環境建立
-3. Heroku部署
-4. 與Vue.js整合
-5. 第一個ASP.Net Core SignalR專案
-6. SignalR Hub
-7. 發佈至 Azure
-8. SigalR群組
-9. WebSocket介紹
+2. 開發環境建立
+3. 第一個ASP.Net Core SignalR程式
+4. WebSocket介紹
+5. SignalR Hub
+6. SingalR 前端API運作
+7. SingalR 使用者及群組關係
+8. 使用MessagePack傳輸更小的資料
+9. SingalR 連線與斷線
 10. ASP.NET Core SignalR 安全性考量
 11. 聊天室實作
-12. 
-13. 使用MessagePack傳輸更小的資料
+12. Heroku部署
+13. 發佈至 Azure
 14. 抽鬼牌實作（一）
 15. 抽鬼牌實作（二）
 16. 抽鬼牌實作（三）
-17. 
-18. 
+17. 與Vue.js整合
+18. Promise物件介紹
 19. 
 20. 
 21. 

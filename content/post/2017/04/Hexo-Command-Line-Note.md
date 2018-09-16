@@ -2,7 +2,7 @@
 title: Hexo - 指令和設定筆記
 date: 2017-04-15 10:31:14
 categories: [Hexo]
-tags: [Hexo,bash]
+tags: [Hexo]
 ---
 # 前言
 首先先來寫一篇Hexo常用指令集和一些常會去調的設定，不然老是去翻官方文件也蠻麻煩的
