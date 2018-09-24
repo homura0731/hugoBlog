@@ -9,9 +9,9 @@ tags: [2019鐵人賽]
 1. ASP.Net Core SignalR 簡介
 2. 開發環境建立
 3. 第一個ASP.Net Core SignalR程式
-4. WebSocket介紹
-5. SignalR Hub
-6. SingalR 前端API運作
+4. 使用SignalR Hub
+5. SingalR 前端API運作
+6. WebSocket介紹
 7. SingalR 使用者及群組關係
 8. 使用MessagePack傳輸更小的資料
 9. SingalR 連線與斷線

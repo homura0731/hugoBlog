@@ -2,17 +2,19 @@
 title: "[鐵人賽Day3]第一個SingalR專案"
 date: 2018-09-19T22:44:57+08:00
 draft: true
+categories: [2019鐵人賽]
+tags: [2019鐵人賽]
 ---
 # 前言
 我想先帶大家做一遍，之後再開始講觀念，因為我覺得這樣會比較好玩一點XD。
 # 建立Web專案
 首先先開啟終端機(命令提示字元)，輸入下面指令建立專案
 ``` shell
-$ dotnet new web -o <資料夾名稱>
+$ dotnet new web -o <專案名稱>
 ```
 進入資料夾，並開啟VS Code
 ``` shell
-$ cd <資料夾名稱>
+$ cd <專案名稱>
 $ code .
 ```
 進去後會問你要不要建立debug檔案，選Yes
@@ -26,6 +28,14 @@ $ dotnet run
 然後開啟來看看`localhosy:5001`看看吧！
 
 ![dotnetRun2](dotnetRun2.png)
+
+
+## 補充：Windows可能發生的錯誤
+這個是我回家時用`Win10`才碰到的，如果沒碰到可以跳過。
+執行時會跳出錯誤`'Microsoft.AspNetCore.Connections.Abstractions, Version=2.1.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60'. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)`
+
+這時只要去專案檔`.csproj`加入`<PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.3" />`，然後再執行就會幫你還原沒還原到的套件就OK了!
+
 
 # 安裝SignalR套件
 後端我們使用Nuget安裝
@@ -64,6 +74,8 @@ libman install @aspnet/signalr -p unpkg -d wwwroot\lib\signalr --files dist/brow
 $ mkdir Hub
 ```
 然後`Hub`底下建立一個`ChatHub.cs`檔案
+> Namespce 記得取成 `專案名稱.Hub`
+
 ``` cs
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
@@ -81,9 +93,9 @@ namespace SignalRChat.Hubs
 ```
 ## 依賴注入Signal元件
 到`Startup.cs`底下
-引用剛剛建立的`SignalRChat.Hub`
+引用剛剛建立的`專案名稱.Hub`
 ``` cs
-using SignalRChat.Hubs;
+using 專案名稱.Hubs;
 ```
 再到`ConfigureServices()`裡註冊`SignalR Service`
 ``` cs
