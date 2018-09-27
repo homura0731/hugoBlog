@@ -1,7 +1,9 @@
 ---
-title: "[2019鐵人賽]Day1 ASP.Net SignalR 導讀"
+title: "[鐵人賽Day1] ASP.Net SignalR 導讀"
 date: 2018-09-12T20:39:50+08:00
 draft: true
+categories: [2019鐵人賽]
+tags: [2019鐵人賽]
 ---
 # ASP.NET Core SignalR是什麼？
 SignalR是一個能輕鬆架構即時互動Web App的Library，微軟在2013年推出這套Library，相信應該很多人玩過，但我這次要介紹的是ASP.NET Core 的版本，今年大概6月才正式第一版，所以算是很新的Library。

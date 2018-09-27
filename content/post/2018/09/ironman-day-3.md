@@ -1,5 +1,5 @@
 ---
-title: "[鐵人賽Day3]第一個SingalR專案"
+title: "[鐵人賽Day3] 第一個SingalR專案"
 date: 2018-09-19T22:44:57+08:00
 draft: true
 categories: [2019鐵人賽]

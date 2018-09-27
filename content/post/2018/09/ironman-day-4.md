@@ -1,5 +1,5 @@
 ---
-title: "來聊聊SignalR Hub"
+title: "[鐵人賽Day4] 來聊聊SignalR Hub"
 date: 2018-09-23T16:41:15+08:00
 draft: true
 categories: [2019鐵人賽]
@@ -41,9 +41,13 @@ public abstract class Hub : IDisposable
 
 `Context`則是`Browser`傳送過來的資訊，例如
 
+
 - `ConnectionId`：連接中的用戶識別碼
 - `UserIdentifier`：連接識別碼
 - `ConnectionId`：連接識別碼
+
+`Groups`則是負責管理群組的屬性
+
 
 `OnConnectedAsync`和`OnDisconnectedAsync`不用說就是連接和斷線的事件囉
 
@@ -71,13 +75,11 @@ public class ChatHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        await Groups.AddToGroupAsync(Context.ConnectionId, "SignalR Users");
         await base.OnConnectedAsync();
     }
 
     public override async Task OnDisconnectedAsync(Exception exception)
     {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, "SignalR Users");
         await base.OnDisconnectedAsync(exception);
     }
 }
