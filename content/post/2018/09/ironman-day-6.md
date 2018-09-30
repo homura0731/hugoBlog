@@ -118,4 +118,5 @@ connection.on("ReceiveMessageGroup", function (groupName, user, message) {
     <source src="signalRGroup.mp4" type="video/mp4">
 </video>
 
-
+# 參考
+- [https://docs.microsoft.com/zh-tw/aspnet/core/signalr/groups?view=aspnetcore-2.1](https://docs.microsoft.com/zh-tw/aspnet/core/signalr/groups?view=aspnetcore-2.1)

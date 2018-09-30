@@ -104,8 +104,8 @@ public void ConfigureServices(IServiceCollection services)
     services.AddSignalR();
 }
 ```
-最後在`Configure()`使用`SignalR Hub`及`StaticFiles`
-> 註：`StaticFiles`就是指`wwwroot`
+最後在`Configure()`使用`UseSignalR`註冊`Router`，`UseDefaultFiles`指向Default的檔案，`UseStaticFiles`使用靜態檔案，原本的`app.Run`註解掉。
+> 註：`靜態檔案`就是放在`wwwroot`底下
 
 ``` cs
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -114,7 +114,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
         routes.MapHub<ChatHub>("/chatHub");
     });
-
+    app.UseDefaultFiles();
     app.UseStaticFiles();
 }
 ```
@@ -180,10 +180,13 @@ document.getElementById("submitBtn").addEventListener("click", function (event) 
 ```
 ## 執行結果
 最後執行吧！
-``` 
+``` shell 
 $ dotnet run
 ```
-我們開啟`localhost:5001/index.html`，分別開成2個視窗，效果會像下面這樣
+或是使用VS Code的Debug模式，上一篇有講過VS Cdoe會要求加入Debug檔，就是為了讓VS Code Debug使用，使用方法左邊有隻禁止的蟲點下去，在按執行按鈕就行。
+> 註：如果你沒有Debug組態，下拉選單打開選.NET Core
+
+然後開啟`localhost:5001`，分別開成2個視窗，效果會像下面這樣
 
 ![SignalR結果](SignalRAPP.gif)
 

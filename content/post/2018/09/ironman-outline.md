@@ -12,22 +12,22 @@ tags: [2019鐵人賽]
 4. 使用SignalR Hub
 5. SingalR 前端API運作
 6. SingalR 使用者及群組關係
-7. 簡單聊天室實作
-8. WebSocket介紹
-9. 使用Json傳遞訊息
-10. 使用MessagePack傳輸更小的資料
-11. SingalR 連線與斷線
+7. 使用Json傳遞訊息
+8. 使用MessagePack傳輸更小的資料
+9. WebSocket介紹
+10. 簡單聊天室實作(1)
+11. 簡單聊天室實作(2)
 12. ASP.NET Core SignalR 安全性考量
 13. Heroku部署
 14. 發佈至 Azure
-15. 抽鬼牌實作（一）
-16. 抽鬼牌實作（二）
-17. 抽鬼牌實作（三）
+15. 抽鬼牌實作(1)
+16. 抽鬼牌實作(2)
+17. 抽鬼牌實作(3)
 18. 與Vue.js整合
 19. Promise物件介紹
 20. SignalR的環境設定
-21. 
-22. 
+21. 遠端操作作業系統(1)
+22. 遠端操作作業系統(2)
 23. 
 24. 
 25. 
