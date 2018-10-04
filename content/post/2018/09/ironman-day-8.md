@@ -62,4 +62,4 @@ const connection = new signalR.HubConnectionBuilder()
 ```
 
 # 後記
-好像看不出來有什麼變化??因為都是在SigalR內部跑的，所以我們還是一樣正常傳入Json就行。
+好像看不出來有什麼變化??因為都是在SigalR內部跑的，所以我們還是一樣正常傳入Json就行，SigmalR會幫我轉換。
