@@ -38,8 +38,7 @@ public class ChatHub : Hub<IChatClient>
 ```
 
 # HubContext注入Controller
-這樣的好處是所有的連線對象可以共用一些參數，例如我們想做一個投票選舉，大家的投票狀態應該要一樣才對，如果你在Hub內使用共用變數的話，會因為新的用戶連近來，導致變數重新宣告，
-如果再Controller內則不會，今天就來看看怎麼把`HubContext注入Controller`注入Controller。
+這樣的好處是能把方法寫道Controller裡面，缺點則是我們呼叫不到`Context`物件，這樣就沒辦法知道是哪個ClientID傳過來的，其實我不知道這樣寫的好處是在哪邊，不過官方文件有介紹，所以今天就來看看怎麼把`HubContext注入Controller`注入Controller吧！
 
 ## 建立一個Controller
 我們還是用Day3同一個專案，建立一個Controller資料夾，在裡面建立一個`ChatController.cs`

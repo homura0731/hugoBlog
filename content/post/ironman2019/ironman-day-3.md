@@ -105,6 +105,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 最後在`Configure()`使用`UseSignalR`註冊`Router`，`UseDefaultFiles`指向Default的檔案，`UseStaticFiles`使用靜態檔案，原本的`app.Run`註解掉。
+
 > 註：`靜態檔案`就是放在`wwwroot`底下
 
 ``` cs
