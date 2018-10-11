@@ -5,8 +5,7 @@ draft: true
 categories: [2019鐵人賽]
 tags: [2019鐵人賽]
 ---
-今天我們要幫塗鴉牆加上橡皮擦的功能和畫版載入時同步的功能，只能畫不能擦掉感覺真的是蠻奇怪的，還有載入時同步前面畫的狀況，避免之後進來的人看
-到的畫面跟先進來看到會有不一樣的狀況。
+今天我們要幫塗鴉牆加上橡皮擦的功能，只能畫不能擦掉感覺真的是蠻奇怪的，當然擦的時候也要同時擦全部的畫版。
 
 # 橡皮擦功能
 這邊我在實作時，一開始是想到只有用透明色或是白色把畫過的地方重新上色就行，後來發現有Canvas有內建API可以達成。
@@ -118,7 +117,7 @@ canvas.addEventListener('mousemove', function (e) {
     }
 });
 ```
-接收事件我們需要加上一個switch來判定mode，在做不一樣的事情
+接收事件我們需要加上一個switch來判定`mode`是什麼，在做不一樣的事情
 ``` js
 connection.on("ReceiveDraw", function (json) {
     switch (json.mode) {
@@ -152,29 +151,3 @@ public class DrawJson
 }
 ```
 
-# 同步不同時間連線的塗鴉板
-我們可以回想一下Day11的Service寫法，其實寫法一樣的，比耗工應該是前端部分，需要把一次把大量的動作畫完
-## 建立DrawService.cs
-這次比上次簡單，我們不需要移除的方法，只要增加就好
-``` cs
-using System;
-using System.Collections.Generic;
-using DrawWall.Models;
-
-namespace DrawWall.Service
-{
-    public class DrawService
-    {
-        private List<DrawJson> _list;
-        public DrawService()
-        {
-            _list = new List<DrawJson>();
-        }
-        public List<DrawJson> AddList(DrawJson drawJson)
-        {
-            _list.Add(drawJson);
-            return _list;
-        }
-    }
-}
-```
