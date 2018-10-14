@@ -6,7 +6,7 @@ categories: [2019鐵人賽]
 tags: [2019鐵人賽]
 ---
 # 需要的OS環境
-OS環境Ｗindows、Linux、Mac OS任一都行，主要操作是用`dotNet CLI`不用擔心會有不一樣的操作流程，如果你使用Visual Studio使用UI操作也是可以，但是這邊還是讓大家學學`dotNet CLI`怎麼用比較好，畢竟是3個環境都能統一用的方法，學一下對自己沒壞處。
+OS環境Windows、Linux、Mac OS任一都行，主要操作是用`dotNet CLI`和`VS Code`不用擔心會有不一樣的操作流程，如果你使用Visual Studio使用UI操作也是可以，但是這邊還是讓大家學學`dotNet CLI`和`VS Code`怎麼用比較好，畢竟是3個環境都能統一用的方法，學一下對自己沒壞處。
 # 安裝.Net Core SDK
 [SDK下載](https://www.microsoft.com/net/download)
 打開後一直下一步安裝就行了
@@ -35,8 +35,27 @@ VS Code還要安裝一下微軟的C#的套件，裝完之後重開VS Code會發�
 $ npm -v
 ```
 
+## 常用的dotnet CLI
+講幾個常用的指令
+`dotnet new`可以建立專案，type為專案種類，`-o`為要不要建立資料夾，沒打則會在當前位置建立專案，`projectname`不用說是專案名
+``` shell
+$ dotnet new <type> -o <projectname>
+```
+
+> 註: 輸入dotnet new --help可以看到所以的專案種類
+
+`dotnet run`就是執行專案，如果你有學過.NET Core 1.X的指令的話，應該還會知道一個`dotnet restore`還原套件，這個在2.x版已經沒了，`dotnet run`會幫你檢查是否有還原過，不過之後我們會在`VS Code`使用中斷點，這時候就要改用`VS Code`的Debug模式，所以之後可能也不會常用。
+``` shell
+$ dotnet run
+```
+`dotnet add package`會使用`Nuget`安裝套件，跟`.NET`不太一樣的地方是他並不會裝進你的專案，所以如果是以前要裝`Bootstrap`這種前端套件的話，請改用`NPM`或是微軟新的`libman`。
+``` shell
+$ dotnet add package <packagename>
+```
+
+
 # 後記
-無聊的安裝環境終於結束了，下一篇就要開始玩SingR了。
+無聊的安裝環境終於結束了，下一篇就要開始玩SignalR了，會先來個基本的範例。
 
 
 

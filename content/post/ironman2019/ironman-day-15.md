@@ -37,7 +37,7 @@ namespace DrawWall.Service
     }
 }
 ```
-在`Starup.cs`引用和註冊
+在`Starup.cs`的Service裡引用和註冊
 ``` cs
 using DrawWall.Service;
 namespace DrawWall
@@ -52,7 +52,7 @@ namespace DrawWall
     }
 }
 ```
-## 修改DrawHub
+## 修改DrawHub內容
 注入到Hub建構子內，然後我們新增一個方法`GetDraw`來取得所有的的繪圖過程，還有一個地方要注意，不要傳給所有人，只要傳給呼叫的使用者即可，`SendDraw`要把Json資料存進`drawService`中。
 ``` cs
 using Microsoft.AspNetCore.SignalR;
@@ -83,7 +83,7 @@ namespace DrawWall.Hubs
     }
 }
 ```
-## 前端連線重繪
+## 前端連線時重繪
 前端部分我們連接成功時，呼叫`GetDraw`方法，並把取得的資料全部重繪一遍
 ``` js
 connection.start().then(function () {
@@ -119,9 +119,14 @@ connection.on("ReciveAllDraw", function (json) {
 ```
 這樣就完成囉！
 不過今天這篇有點短，不過文章開頭說最後一篇了，所以我們來聊聊我們還能做些什麼
-# 塗鴉版未完成事項
-- 把剩下Cavans的繪圖方法都做成工具
-- 加入連線名單及畫圖時的使用者名稱
+# 塗鴉版未完成事項及用途
+- UI重新設計，這個很重要，好的UX才會讓使用者想用下去
+- 把剩下Cavans的繪圖API都做成工具，當然繪圖不能只有普通的直線和橡皮擦囉!
+- 加入連線名單及畫圖時的使用者名稱，要知道到底是誰在畫
+- 增加繪圖板轉圖片功能，這樣就不需要刻意使用什麼截圖軟體
 
+至於用途，我覺得可以用在網路會議時，有些東西要打字的不方便理解，這時塗鴉板就派上用場囉！可能是會寫溝通的`UML`或是流程圖之類，等於會議時常常用到的白板一樣。
+
+今天大概就這些，明天就進入下一個實作了囉~
 
 
