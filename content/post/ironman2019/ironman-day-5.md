@@ -1,68 +1,117 @@
 ---
-title: "[鐵人賽Day5] SingalR 前端API運用"
-date: 2018-09-24T13:45:05+08:00
+title: "[鐵人賽Day5] 使用SignalR Hub(2)"
+date: 2018-10-02T23:19:52+08:00
 draft: true
 categories: [2019鐵人賽]
 tags: [2019鐵人賽]
 ---
-# 連接事件
-建立連線，我們需要建立一個連線物件，withUrl裡的參數放入要連接的Hub名稱，再用build建立。
-``` js
-var connection = new signalR.HubConnectionBuilder().withUrl("/Hub名稱").build();
-```
-> 註：Hub名稱不分大小寫
+今天來點輕鬆的吧！來寫寫強型別的Hub和把HubContext注入Controller
 
-## 開始連接
-使用`connection.start()`方法開始連接Server，連接錯誤時可用`catch()`捕捉錯誤
-``` js
-connection.start().catch(function(err){
-    // 錯誤處理
-});
+# 強型別Hub
+SignalR的`Hub`介面只規定我們要實作`OnConnectedAsync`和`OnDisconnectedAsync`兩個事件而已，其他的事件全都是自定義的`magic string`，
+這樣會可能會照成大小寫拼錯，或是拼錯了不知道，也能幫助我們在開發偵錯時就先找到錯誤。
+
+## 實作強行別Hub
+其實就是也就是定義一個介面而已，我們來簡單設計一個介面，大概像下面這樣
+
+``` cs
+public interface IChatClient
+{
+    Task AddGroup(string groupName, string user);
+    Task ReceiveMsgGroup(string groupName, string user, string message);
+}
 ```
-## 關閉連接
-使用`connection.stop()`方法開始連接Server，一樣錯誤時可用`catch()`捕捉錯誤
-``` js
-connection.stop().catch(function(err){
-    // 錯誤處理
-});
-```
-`connection.onclose()`可以監聽連接關閉瞬間
-``` js
-connection.onclose(function(e){
-    // 關閉時想做的事
-});
+套用到自己寫的Hub上
+``` cs
+public class ChatHub : Hub<IChatClient>
+{
+    public async Task AddGroup(string user, string message)
+    {
+        await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+        await Clients.Group(groupName).SendAsync("RecGroupMsg", $"{user} 已加入 群組：{groupName}。");
+    }
+
+    public Task ReceiveMsgGroup(tring groupName, string user, string message)
+    {
+        return Clients.Group(groupName).SendAsync("ReceiveMessageGroup", groupName , username, message);
+    }
+}
 ```
 
-# 其他事件
-除了連接和關閉事件比較特別之外，其他事件都是自己自訂的事件，當然大部分的動作都能叫`SignalR API`不需要全部自己實作。
+# HubContext注入Controller
+這樣的好處是能把方法寫道Controller裡面，缺點則是我們呼叫不到`Context`物件，這樣就沒辦法知道是哪個ClientID傳過來的，其實我不知道這樣寫的好處是在哪邊，不過官方文件有介紹，所以今天就來看看怎麼把`HubContext注入Controller`注入Controller吧！
 
-大致流程向這樣，首先使用`Connection.invoke()`呼叫`Hub`的方法，這時`Hub`會依照`SendAsync()`寫的對象傳回去給`connection.on()`接收，我們以`SendMessage`為例，JS像下面這樣寫
+## 建立一個Controller
+我們還是用Day3同一個專案，建立一個Controller資料夾，在裡面建立一個`ChatController.cs`
+``` cs
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using CoreWeb.Hubs;
 
-``` js
-connection.invoke("SendMessage", user, message).catch(function (err) {
-    return console.error(err.toString());
-});
+namespace CoreWeb.Controllers
+{
+    public class ChatController : Controller
+    {
+
+    }
+}
 ```
-invoke的第一個變數會呼應到`Hub`的方法名稱，所以上面那樣會呼叫到下面這個`Hub`方法
+建立一個變數，在建構子注入`HubContext<T>`，`<T>`為自己建立的任意`Hub`
+``` cs
+private readonly IHubContext<ChatHub> _hubContext;
+public ChatController(IHubContext<ChatHub> hubContext)
+{
+    _hubContext = hubContext;
+}
+```
+傳送訊息改成從Controller進入，所以我們要在Controller建立傳送訊息的方法，方法基本上跟在Hub裡面時一模一樣
 ``` cs
 public async Task SendMessage(string user, string message)
 {
-    await Clients.All.SendAsync("ReceiveMessage", user, message);
+    await _hubContext.Clients.All.SendAsync("ReceiveMessage",user, message);
 }
-
 ```
-然後`SendAsync()`第一個變數會丟回`conection.on()`事件裡。
+在`Starup.cs`註冊`MVC`方法
+``` cs
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddSignalR().AddMessagePackProtocol();
+    services.AddMvc();
+}
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
 
+    app.UseSignalR(routes =>
+    {
+        routes.MapHub<ChatHub>("/chatHub");
+    });
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+    app.UseMvc(routes =>
+    {
+        routes.MapRoute(
+            name: "default",
+            template: "{controller=Chat}/{action=Index}/{id?}");
+    });
+
+}
+```
+前端的呼叫方法有點不一樣，得換用ajax
 ``` js
-connection.on("ReceiveMessage", function (user, message) {
-    // 接收後要做的事
+document.getElementById("submitBtn").addEventListener("click", function (event) {
+    var user = document.getElementById("name").value;
+    var message = document.getElementById("msg").value;
+    fetch(`Chat/SendMessage?user=${user}&message=${message}`,{
+        method:"GET"
+    })
+    event.preventDefault();
 });
 ```
-
-> 註：這3個方法除了第一個變數是對象外，其他都是能自訂的
-
-## 後記
-到這邊已經學會SignalR的最基礎了，下一篇我們來講講群組的傳遞。
-
-
-
+前端接收則還是保持原本的狀況，大概這樣就完成了，下一篇實作，我們會應用到這個寫法，今天大概就這樣囉!

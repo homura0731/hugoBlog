@@ -1,9 +1,8 @@
 ---
 title: "[鐵人賽Day3] 第一個SingalR專案"
-date: 2018-09-19T22:44:57+08:00
-draft: true
+date: 2018-10-16T19:44:57+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.Net Core]
 ---
 # 前言
 我想先帶大家做一遍，之後再開始講觀念，因為我覺得這樣會比較好玩一點XD。
@@ -25,6 +24,8 @@ $ dotnet run
 ```
 ![dotnetRun](dotnetRun.png)
 
+> 註：瀏覽器可能會跳安全性問題，只是因為沒憑證
+
 然後開啟來看看`localhosy:5001`看看吧！
 
 ![dotnetRun2](dotnetRun2.png)
@@ -42,7 +43,9 @@ $ dotnet run
 ``` shell
 $ dotnet add package Microsoft.AspNetCore.SignalR.Core --version 1.0.3 
 ```
-前端我們使用NPM安裝或是LibMan(微軟的新工具)
+> 註：現在新版不用裝了，直接就using的到
+
+前端我們使用`NPM`安裝或是`LibMan`(微軟的新工具)
 ## NPM安裝
 先初始化npm套件功能，然後會問一堆套件要叫什麼之類的，一直`Enter`讓他選默認值就好了。
 ``` shell
@@ -74,7 +77,8 @@ libman install @aspnet/signalr -p unpkg -d wwwroot\lib\signalr --files dist/brow
 $ mkdir Hub
 ```
 然後`Hub`底下建立一個`ChatHub.cs`檔案
-> Namespce 記得取成 `專案名稱.Hub`
+
+> 註：Namespce 記得取成 `專案名稱.Hub`
 
 ``` cs
 using Microsoft.AspNetCore.SignalR;
@@ -184,12 +188,15 @@ document.getElementById("submitBtn").addEventListener("click", function (event) 
 ``` shell 
 $ dotnet run
 ```
+或`F5`使用`VS Code的Debug`模式
 或是使用VS Code的Debug模式，上一篇有講過VS Cdoe會要求加入Debug檔，就是為了讓VS Code Debug使用，使用方法左邊有隻禁止的蟲點下去，在按執行按鈕就行。
-> 註：如果你沒有Debug組態，下拉選單打開選.NET Core
+
+> 註：如果你沒有Debug組態，下拉選單打開選.NET Core就行了
 
 然後開啟`localhost:5001`，分別開成2個視窗，效果會像下面這樣
 
 ![SignalR結果](SignalRAPP.gif)
 
-
-
+# 參考＆範例下載
+- [MSDN文件](https://docs.microsoft.com/zh-tw/aspnet/core/tutorials/signalr?view=aspnetcore-2.1&tabs=visual-studio)
+- [範例下載](https://drive.google.com/file/d/1CSiqGkTjQvWL25iiYtUmMNrrL4m_JVrG/view)

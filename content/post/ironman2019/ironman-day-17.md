@@ -46,7 +46,7 @@ namespace VoteWeb.Services
     public class VoteService
     {
         private List<VoteModel> voteModelList;
-
+        private int i = 0;
         public VoteService()
         {
             voteModelList = new List<VoteModel>();
@@ -85,8 +85,10 @@ namespace VoteWeb.Services
         }
 
         // 建立新的投票
-        public void AddVote(VoteModel voteModel)
+        public void CreateVote(VoteModel voteModel)
         {
+            i++;
+            voteModel.id = i;
             voteModelList.Add(voteModel);
         }
 

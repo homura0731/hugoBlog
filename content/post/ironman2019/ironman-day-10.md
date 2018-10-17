@@ -1,117 +1,71 @@
 ---
-title: "[鐵人賽Day10] 使用SignalR Hub(2)"
-date: 2018-10-02T23:19:52+08:00
+title: "[鐵人賽Day10] SignalR 組態設定"
+date: 2018-10-01T20:31:44+08:00
 draft: true
 categories: [2019鐵人賽]
 tags: [2019鐵人賽]
 ---
-今天來點輕鬆的吧！來寫寫強型別的Hub和把HubContext注入Controller
+今天來講講SignalR的組態設定，組態有分Server組態和用戶組態2種
+# Server組態設定
+主要在`Starup.cs`裡面設定，可以對全部Hub設定，也能只對一個Hub設定。
 
-# 強型別Hub
-SignalR的`Hub`介面只規定我們要實作`OnConnectedAsync`和`OnDisconnectedAsync`兩個事件而已，其他的事件全都是自定義的`magic string`，
-這樣會可能會照成大小寫拼錯，或是拼錯了不知道，也能幫助我們在開發偵錯時就先找到錯誤。
-
-## 實作強行別Hub
-其實就是也就是定義一個介面而已，我們來簡單設計一個介面，大概像下面這樣
-
+## 全部Hub設定
 ``` cs
-public interface IChatClient
+services.AddSignalR(options =>
 {
-    Task AddGroup(string groupName, string user);
-    Task ReceiveMsgGroup(string groupName, string user, string message);
-}
-```
-套用到自己寫的Hub上
-``` cs
-public class ChatHub : Hub<IChatClient>
-{
-    public async Task AddGroup(string user, string message)
-    {
-        await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-        await Clients.Group(groupName).SendAsync("RecGroupMsg", $"{user} 已加入 群組：{groupName}。");
-    }
-
-    public Task ReceiveMsgGroup(tring groupName, string user, string message)
-    {
-        return Clients.Group(groupName).SendAsync("ReceiveMessageGroup", groupName , username, message);
-    }
-}
-```
-
-# HubContext注入Controller
-這樣的好處是能把方法寫道Controller裡面，缺點則是我們呼叫不到`Context`物件，這樣就沒辦法知道是哪個ClientID傳過來的，其實我不知道這樣寫的好處是在哪邊，不過官方文件有介紹，所以今天就來看看怎麼把`HubContext注入Controller`注入Controller吧！
-
-## 建立一個Controller
-我們還是用Day3同一個專案，建立一個Controller資料夾，在裡面建立一個`ChatController.cs`
-``` cs
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using CoreWeb.Hubs;
-
-namespace CoreWeb.Controllers
-{
-    public class ChatController : Controller
-    {
-
-    }
-}
-```
-建立一個變數，在建構子注入`HubContext<T>`，`<T>`為自己建立的任意`Hub`
-``` cs
-private readonly IHubContext<ChatHub> _hubContext;
-public ChatController(IHubContext<ChatHub> hubContext)
-{
-    _hubContext = hubContext;
-}
-```
-傳送訊息改成從Controller進入，所以我們要在Controller建立傳送訊息的方法，方法基本上跟在Hub裡面時一模一樣
-``` cs
-public async Task SendMessage(string user, string message)
-{
-    await _hubContext.Clients.All.SendAsync("ReceiveMessage",user, message);
-}
-```
-在`Starup.cs`註冊`MVC`方法
-``` cs
-public void ConfigureServices(IServiceCollection services)
-{
-    services.AddSignalR().AddMessagePackProtocol();
-    services.AddMvc();
-}
-public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-{
-    if (env.IsDevelopment())
-    {
-        app.UseDeveloperExceptionPage();
-    }
-
-    app.UseSignalR(routes =>
-    {
-        routes.MapHub<ChatHub>("/chatHub");
-    });
-    app.UseDefaultFiles();
-    app.UseStaticFiles();
-    app.UseMvc(routes =>
-    {
-        routes.MapRoute(
-            name: "default",
-            template: "{controller=Chat}/{action=Index}/{id?}");
-    });
-
-}
-```
-前端的呼叫方法有點不一樣，得換用ajax
-``` js
-document.getElementById("submitBtn").addEventListener("click", function (event) {
-    var user = document.getElementById("name").value;
-    var message = document.getElementById("msg").value;
-    fetch(`Chat/SendMessage?user=${user}&message=${message}`,{
-        method:"GET"
-    })
-    event.preventDefault();
+    options.HandshakeTimeout = TimeSpan.FromMinutes(3);
+    options.KeepAliveInterval = TimeSpan.FromHours(1);
+    options.EnableDetailedErrors = true;
 });
 ```
-前端接收則還是保持原本的狀況，大概這樣就完成了，下一篇實作，我們會應用到這個寫法，今天大概就這樣囉!
+
+## 單一Hub設定
+``` cs
+services.AddSignalR().AddHubOptions<ChatHub>(options =>
+{
+    options.HandshakeTimeout = TimeSpan.FromMinutes(3);
+    options.KeepAliveInterval = TimeSpan.FromHours(1);
+    options.EnableDetailedErrors = true;
+});
+```
+## 可設定變數
+
+|名稱             |解釋
+|----------------|-----------|
+|HandshakeTimeout|初次建立連線的時間，超過時間User端都沒回應會建立連線失敗，其實這命名正是WebSocket的握手，時間使用`TimeSpan`設定|
+|KeepAliveInterval|無傳送訊息持，會ping Server以保持連線的時間，一樣使用`TimeSapn`設定|
+|EnableDetailedErrors|是否顯示錯誤詳細狀況，預設是false，建議只有開發時打開就好|
+
+## 傳輸和記憶體緩衝相關設定
+這邊文件寫得不太清楚，文件只說設定會傳到委派`MapHub`，後來實際做時發現MapHub原來有2個變數，一個就是傳入`HttpConnectionDispatcherOptions`的設定，設定方法一樣是`Starup.cs`裡面，大概像下面這樣
+``` cs
+routes.MapHub<ChatHub>("/chatHub", options =>
+{
+    options.WebSockets.CloseTimeout = TimeSpan.FromMilliseconds(500);
+    options.ApplicationMaxBufferSize = 0;
+    options.TransportMaxBufferSize = 0;
+}
+```
+選項很多請看結尾的的官方文件
+
+# 用戶端組態設定
+在用戶端部分有分成`.NET`和`JS`2種，`.NET`版文件在MSDN文件是用`WPF`當範例，因為他不跨平台，所以這邊先不介紹。
+## JS用戶端
+設定方式是在建立後的`HubConnection`，在物件屬性中直接設定，例如像下面這段程式碼。
+``` js
+var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+connection.serverTimeoutInMilliseconds = 500; // 設定500毫秒無回應，切斷連線
+```
+可以設定的選項如下
+
+|名稱             |解釋
+|----------------|-----------|
+|serverTimeoutInMilliseconds|連線無回應的時間限制|
+|accessTokenFactory|驗證用的Bearer Token|
+|skipNegotiation|跳過交涉的步驟，只支援WebSocket傳輸時|
+
+> 註：.NET用戶端可以設定很多，不知為什麼JS只有3個...
+
+今天大概這些啦，MSDN文件感覺有些寫太簡單，實在是看不太懂....
+

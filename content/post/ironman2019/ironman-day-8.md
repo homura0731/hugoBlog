@@ -1,65 +1,62 @@
 ---
-title: "[鐵人賽Day8] 使用MessagePack傳輸更小的資料"
-date: 2018-09-30T14:55:04+08:00
+title: "[鐵人賽Day8] 使用Json傳遞訊息"
+date: 2018-09-29T16:52:05+08:00
 draft: true
 categories: [2019鐵人賽]
 tags: [2019鐵人賽]
 ---
+# 前言
+今天要來講講怎麼使用JSON傳遞訊息，
 
-`MessagePack`是一個類似Json格式但是比Json速度更快、檔案更小，不過似乎還沒很流行就是了，既然`ASP.Net Core SignalR`文件上面有特別提到，那我們今天就來用用看這個新的資料格式吧!
+# 在Service註冊
+其實這步是可以跳過，因為SignalR預設會開啟`AddJsonProtocol()`，如果要全部使用同一個預設的Json格式的，我查過答案要使用mvc才行，所以這又是另外的用法，我會擺在比較後面講。
 
-
-# MessagePack跟Json差在哪?
-MessagePack使用二進位序列化組成，下面是官方示意圖
-![MeassagePackDEMO](MeassagePackDEMO.PNG)
-
-他會幫你把資料轉成二進位已達成更小的體積，官網有個Demo可以幫你把JSON轉成MessagePack，點進去後再點上方得Try
-
-[DEMO網址](https://msgpack.org/)
-
-# 安裝及使用MessagePack
-官網不知道為什麼同一語言有好幾個版本...，SingalR本身就支援MessagePack了，有自己的版本，所以就使用SignalR的版本吧!
-
-## 後端部分
-先用aspnet cli安裝
-``` shell
-dotnet add package Microsoft.AspNetCore.SignalR.Protocols.MessagePack
-```
-首先先在Starup.cs註冊服務，放在AddSignalR後面。
+# 實作
+我們先建立一個Class來當Json的預設格式，先建立一個檔案`JsonFromat.cs`，程式碼大概像下面這樣。
 ``` cs
-services.AddSignalR().AddMessagePackProtocol();
+using System;
+
+namespace CoreWeb.JsonFormat
+{
+    public class ReponseJson
+    {
+        public int id { get; set; }
+        public string user { get; set; }
+        public string message { get; set; }
+        public string group { get; set; }
+    }
+}
 ```
 
-## 前端部分
-我們要先用npm安裝套件
-``` shell
-$ npm install @aspnet/signalr-protocol-msgpack
+再來我們去Hub裡面載入，首先using剛剛建立Class
+``` cs
+using CoreWeb.JsonFormat;
 ```
+然後在Hub建立一個變數，在建構子裡面物件化
+``` cs
+public class ChatHub : Hub
+{
+    private ReponseJson responseJson;
+    public ChatHub()
+    {
+        responseJson = new ReponseJson();
+    }
+}
+```
+這樣不管哪個方法都回應這個`responseJson`就好了，例如我們建立一個方法要傳給所有人大概會像下面這樣
+``` cs
+public async Task SendMessage(string user, string message)
+{
+    responseJson.user = user;
+    responseJson.message = message;
+    await Clients.All.SendAsync("ReceiveMessage", responseJson);
+}
+```
+其實這個跟以前的Web API用法差不多....
 
-然後去`node_module`裡面找出下面2個檔案`signalr-prtocol-msgpack.js`和`msgpack5.js`，把它移動到`wwwroot/lib`底下，覺得這樣有點麻煩，所以我直接把他寫成shell指令了...
+然後User端在接收時，就會變成一個Json格式，沒填值的變數會自動補上Null，`Cosole.log()`出來大概就像下面這張圖。
 
-**cmd**
-``` shell
-copy node_modules\@aspnet\signalr-protocol-msgpack\dist\browser\signalr-protocol-msgpack.js wwwroot\lib\signalr-protocol-msgpack.js
-copy node_modules\msgpack5\dist\msgpack5.js  wwwroot\lib\msgpack5.js
-```
-**bash**
-``` 
-cp node_modules/@aspnet/signalr-protocol-msgpack/dist/browser/signalr-protocol-msgpack.js wwwroot/lib/signalr-protocol-msgpack.js
-cp node_modules/msgpack5/dist/msgpack5.js  wwwroot/lib/msgpack5.js
-```
-開啟`wwwroot/index.html`引入js
-``` html
-<script src="lib/msgpack5.js"></script>
-<script src="lib/signalr-protocol-msgpack.js"></script>
-```
-註冊到SignalR到protocol裡
-``` js
-const connection = new signalR.HubConnectionBuilder()
-    .withUrl("/chatHub")
-    .withHubProtocol(new signalR.protocols.msgpack.MessagePackHubProtocol())
-    .build();
-```
+![json格式](jsonformat.PNG)
 
 # 後記
-好像看不出來有什麼變化??因為都是在SigalR內部跑的，所以我們還是一樣正常傳入Json就行，SigmalR會幫我轉換。
+這篇好像有點少，寫完覺得有點慚愧哈哈，下一篇我們來講講新的訊息格式`MessagePack`吧!

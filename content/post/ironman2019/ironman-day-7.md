@@ -1,62 +1,122 @@
 ---
-title: "[鐵人賽Day7] 使用Json傳遞訊息"
-date: 2018-09-29T16:52:05+08:00
+title: "[鐵人賽Day7] SingalR 使用者及群組關係"
+date: 2018-09-26T20:13:55+08:00
 draft: true
 categories: [2019鐵人賽]
 tags: [2019鐵人賽]
 ---
 # 前言
-今天要來講講怎麼使用JSON傳遞訊息，
+今天來介紹群組的運作，不知道會不會有人問為什麼要群組？？總不能每次訊息都傳給所有人吧!XD
 
-# 在Service註冊
-其實這步是可以跳過，因為SignalR預設會開啟`AddJsonProtocol()`，如果要全部使用同一個預設的Json格式的，我查過答案要使用mvc才行，所以這又是另外的用法，我會擺在比較後面講。
+所以今天就讓我們好好來介紹一下SignalR群組運作的方式。
 
-# 實作
-我們先建立一個Class來當Json的預設格式，先建立一個檔案`JsonFromat.cs`，程式碼大概像下面這樣。
+# 使用方法
+主要就使用2個方法，`Groups.AddToGroupAsync()`和`Clients.Group()`2種。
+加入群組使用
 ``` cs
-using System;
+Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+```
+`Context.ConnectionId`為`SignalR`產生的ID
 
-namespace CoreWeb.JsonFormat
+`groupName`為要加入的群組
+
+群組傳送訊息使用`Clients.Group()`
+``` cs
+Clients.Group(groupName).SendAsync("SendGroupMethod", "GroupMessage");
+```
+`groupName`是要傳送得群組
+`SendAsync()`第一個參數為回傳要呼叫的前端方法，可任意修改名稱，第二個參數為回傳的訊息。
+
+大概就這樣，感覺好像沒講什麼.....
+那帶大家來實做一下吧!!
+
+# 群組實作
+我們用Day3得實作為基礎繼續做下去，如果沒做到的可以往回看Day3。
+
+## 後端部分
+首先我們在Hub新增方法`AddGroup()`，用來加入群組使用，內容大概像下面這樣
+
+``` cs
+public async Task AddGroup(string groupName, string username)
 {
-    public class ReponseJson
-    {
-        public int id { get; set; }
-        public string user { get; set; }
-        public string message { get; set; }
-        public string group { get; set; }
-    }
+    await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+    await Clients.Group(groupName).SendAsync("RecGroupMsg", $"{username} 已加入 群組：{groupName}。");
 }
 ```
+`AddToGroupAsync()`加入群組後，再回傳一個群組訊息告知大家誰加入了群組。
 
-再來我們去Hub裡面載入，首先using剛剛建立Class
+在建立一個群組傳送訊息的方法`SendMessageToGroup()`
+
 ``` cs
-using CoreWeb.JsonFormat;
-```
-然後在Hub建立一個變數，在建構子裡面物件化
-``` cs
-public class ChatHub : Hub
+public Task SendMessageToGroup(string groupName, string username, string message)
 {
-    private ReponseJson responseJson;
-    public ChatHub()
-    {
-        responseJson = new ReponseJson();
-    }
+    return Clients.Group(groupName).SendAsync("ReceiveMessageGroup", username, message);
 }
 ```
-這樣不管哪個方法都回應這個`responseJson`就好了，例如我們建立一個方法要傳給所有人大概會像下面這樣
-``` cs
-public async Task SendMessage(string user, string message)
-{
-    responseJson.user = user;
-    responseJson.message = message;
-    await Clients.All.SendAsync("ReceiveMessage", responseJson);
-}
+跟上面的方法大同小異，只是多個訊息變數，還有傳回去時要多傳一個使用者，讓大家知道是誰傳的。
+
+## 前端部分
+首先我們要創建一個群組列表和加入群組按鈕，讓大家選擇要加入哪一個群組
+``` html
+<select id="group">
+    <option>貓派</option>
+    <option>狗派</option>
+</select>
+<button type="button" id="addGroupBtn">加入群組</button>
+<button type="Button" id="submitGroupBtn">送出給群組</button><br>
+
 ```
-其實這個跟以前的Web API用法差不多....
+建立加入群組的事件到`ButtonClick`裡，然後傳回給`AddGroup`
+``` js
+document.getElementById("addGroupBtn").addEventListener("click", function (event) {
+    var user = document.getElementById("name").value;
+    var group = document.getElementById("group").value;
+    connection.invoke("AddGroup",group, user ).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
+```
+建立接收的事件，用來接收群組是否加入成功
+``` js
+connection.on("RecGroupMsg", function (message) {
+    var msg = message;
+    var li = document.createElement("li");
+    li.textContent = msg;
+    document.getElementById("msgDiv").appendChild(li);
+});
+```
+再來建立群組訊息事件和接收事件
+``` js
+// 群組訊息Button事件
+document.getElementById("submitGroupBtn").addEventListener("click", function (e) {
+    var user = document.getElementById("name").value;
+    var group = document.getElementById("group").value;
+    var message = document.getElementById("msg").value;
 
-然後User端在接收時，就會變成一個Json格式，沒填值的變數會自動補上Null，`Cosole.log()`出來大概就像下面這張圖。
+    connection.invoke("SendMessageToGroup",group, user, message ).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
 
-![json格式](jsonformat.PNG)
+// 群組訊息接收事件
+connection.on("ReceiveMessageGroup", function (groupName, user, message) {
+    var msg = message;
+    var encodedMsg = `[群組訊息(${groupName})]${user}：${msg}`;
+    var li = document.createElement("li");
+    li.textContent = encodedMsg;
+    document.getElementById("msgDiv").appendChild(li);
+});
 
-# 後記
-這篇好像有點少，寫完覺得有點慚愧哈哈，下一篇我們來講講新的訊息格式`MessagePack`吧!
+```
+
+這樣就大功告成了！
+效果如下
+
+<video width="528" controls>
+    <source src="signalRGroup.mp4" type="video/mp4">
+</video>
+
+# 參考
+- [https://docs.microsoft.com/zh-tw/aspnet/core/signalr/groups?view=aspnetcore-2.1](https://docs.microsoft.com/zh-tw/aspnet/core/signalr/groups?view=aspnetcore-2.1)
