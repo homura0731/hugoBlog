@@ -61,5 +61,22 @@ const connection = new signalR.HubConnectionBuilder()
     .build();
 ```
 
-# 後記
-好像看不出來有什麼變化??因為都是在SigalR內部跑的，所以我們還是一樣正常傳入Json就行，SigmalR會幫我轉換。
+
+到這邊就OK了！你說好像看不出來有什麼變化??因為都是在SigalR內部跑的，其實可以用F12開發者工具來看
+
+打開F12 -> NetWork -> 找到type是Websocket -> 選擇後右邊在選Frames 
+
+來比較一下差別吧，資料統一貓派群組、名字和訊息都是123
+
+下面這個是JSON，資料長度是傳送`91`，接收`73`
+
+![Json](Json.gif)
+
+這個是MessagePack，傳送`41`，接收`49`
+
+![MessagePack](MessagePack.gif)
+
+結論是其實MessagePack資料量真的小蠻多，今天大概就介紹這樣吧！
+
+# 參考
+- [MSDN文件](https://docs.microsoft.com/zh-tw/aspnet/core/signalr/messagepackhubprotocol?view=aspnetcore-2.1)

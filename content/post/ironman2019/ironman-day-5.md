@@ -1,18 +1,17 @@
 ---
-title: "[鐵人賽Day5] 使用SignalR Hub(2)"
-date: 2018-10-02T23:19:52+08:00
-draft: true
+title: "[鐵人賽Day5] 使用SignalR Hub (2)"
+date: 2018-10-18T20:38:52+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.Net Core]
 ---
 今天來點輕鬆的吧！來寫寫強型別的Hub和把HubContext注入Controller
 
-# 強型別Hub
-SignalR的`Hub`介面只規定我們要實作`OnConnectedAsync`和`OnDisconnectedAsync`兩個事件而已，其他的事件全都是自定義的`magic string`，
-這樣會可能會照成大小寫拼錯，或是拼錯了不知道，也能幫助我們在開發偵錯時就先找到錯誤。
+# 強型別Hub的好處
+SignalR的`Hub`介面只規定我們要實作`OnConnectedAsync`和`OnDisconnectedAsync`兩個事件而已，其他的事件名稱全都是自定義的`magic string`，
+這樣會可能會照成大小寫拼錯，或是拼錯了不知道，所以強行別Hub就能幫助我們在開發偵錯時就先找到錯誤。
 
 ## 實作強行別Hub
-其實就是也就是定義一個介面而已，我們來簡單設計一個介面，大概像下面這樣
+其實就是也就是定義一個介面`Interface`而已，我們來簡單設計一個介面，大概像下面這樣
 
 ``` cs
 public interface IChatClient
@@ -21,7 +20,7 @@ public interface IChatClient
     Task ReceiveMsgGroup(string groupName, string user, string message);
 }
 ```
-套用到自己寫的Hub上
+再來套用到自己寫的`Hub`上，使用繼承的方式加入，因為是它是一個泛型`Hub<T>`
 ``` cs
 public class ChatHub : Hub<IChatClient>
 {
@@ -39,10 +38,12 @@ public class ChatHub : Hub<IChatClient>
 ```
 
 # HubContext注入Controller
-這樣的好處是能把方法寫道Controller裡面，缺點則是我們呼叫不到`Context`物件，這樣就沒辦法知道是哪個ClientID傳過來的，其實我不知道這樣寫的好處是在哪邊，不過官方文件有介紹，所以今天就來看看怎麼把`HubContext注入Controller`注入Controller吧！
+這樣的好處是能把方法寫到Controller裡面，缺點則是我們呼叫不到`Context`物件，這樣就沒辦法知道是哪個`ClientID`傳過來的
+
+接下來就來看看怎麼把`HubContext注入Controller`注入Controller吧！
 
 ## 建立一個Controller
-我們還是用Day3同一個專案，建立一個Controller資料夾，在裡面建立一個`ChatController.cs`
+我們用Day3同一個[專案](https://drive.google.com/file/d/1CSiqGkTjQvWL25iiYtUmMNrrL4m_JVrG/view)，建立一個Controller資料夾，在裡面建立一個`ChatController.cs`
 ``` cs
 using System;
 using System.Collections.Generic;
@@ -103,7 +104,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 }
 ```
-前端的呼叫方法有點不一樣，得換用ajax
+前端的呼叫方法有點不一樣，得換用`ajax`的方式，這邊我們用HTML5內建的`fetch()`
 ``` js
 document.getElementById("submitBtn").addEventListener("click", function (event) {
     var user = document.getElementById("name").value;
@@ -114,4 +115,7 @@ document.getElementById("submitBtn").addEventListener("click", function (event) 
     event.preventDefault();
 });
 ```
-前端接收則還是保持原本的狀況，大概這樣就完成了，下一篇實作，我們會應用到這個寫法，今天大概就這樣囉!
+前端接收則還是保持原本的狀況，大概這樣就完成了，下一篇我們在來看看前端的方用法。
+
+# 參考
+- [MSDN文件](https://docs.microsoft.com/zh-tw/aspnet/core/signalr/hubs?view=aspnetcore-2.1)

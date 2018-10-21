@@ -29,6 +29,12 @@ tags: [2019鐵人賽]
 <div id="voteForm">
 </div>
 ```
+載入頁面DOM 物件
+``` js
+var voteRoom = document.getElementById('voteRoom');
+var voteMenu = document.getElementById('voteMenu');
+var voteForm = document.getElementById('voteForm');
+```
 # 建立新增投票表單
 首先我們先來做投票表單部分，一個`input`做投票名稱，一個`select`元素用來動態建立選項`input`，建立一個`div`裡面放動態建立的投票選項`input`
 ``` html
@@ -114,11 +120,20 @@ submit.addEventListener('click', function () {
 
 })
 ```
-接收的方法我們上一篇有建立過，記得把裡面內容刪掉，換成下面的
+接收的方法我們上一篇有建立過，不過我們這邊要改一下，變數名稱改成`ReceiveVoteList`，換成下面的
 ``` js
-connection.on("ReceiveVote", function (json) {
+connection.on("ReceiveVoteList", function (json) {
     console.log(json);
 });
 ```
 成功後會得到下面結果
 ![投票成功](createVote.jpg)
+
+最後我們做返回鍵的事件，讓它可以返回投票列表頁。
+``` js
+document.getElementById('cancelCreateVote').addEventListener('click',function(){
+    voteForm.style.display = 'none';
+    voteMenu.style.display = '';
+})
+```
+今天先這樣，明天來完成列表頁面，然後再跟建立投票這頁整合。

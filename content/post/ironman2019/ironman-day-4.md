@@ -1,5 +1,5 @@
 ---
-title: "[鐵人賽Day4] 使用SignalR Hub(1)"
+title: "[鐵人賽Day4] 使用SignalR Hub (1)"
 date: 2018-10-17T19:11:15+08:00
 categories: [2019鐵人賽]
 tags: [2019鐵人賽, SignalR, ASP.Net Core]
@@ -97,3 +97,5 @@ app.UseSignalR(routes =>
 
 Hub概念大概就這些，下一篇來講講Hub的延伸用法。
 
+# 參考
+- [MSDN文件](https://docs.microsoft.com/zh-tw/aspnet/core/signalr/hubs?view=aspnetcore-2.1)
