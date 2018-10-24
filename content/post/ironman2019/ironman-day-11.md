@@ -1,14 +1,13 @@
 ---
 title: "[鐵人賽Day11] 實作一個連線名單"
-date: 2018-10-06T15:47:46+08:00
-draft: true
+date: 2018-10-24T19:30:46+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, JavaScript]
 ---
 今天要來個小型的實作一個連線名單，連線名單可以讓你知道目前在線的人有誰(廢話)，之前的範例都是在進入時傳送訊息給所有人，如果是中途進來的人，是無從得知目前有哪些人在線上
 ，如果要做一個聊天室沒這基本的功能也太爛了吧!XD
 
-一樣使用Day3的範例來做
+一樣使用Day3的範例來做，沒有的點[這裡](https://drive.google.com/file/d/1CSiqGkTjQvWL25iiYtUmMNrrL4m_JVrG/view)
 
 # 製作一個名單容器和容器Service
 我們先要製作一個容器，把目前上線的人資訊都存下來，至於要存哪些呢?我覺得`使用者名稱`和`連接ID`是一定需要的，再來就是上線的時間點，大概就這些，先建立一個`ConUserModel.cs`，
@@ -27,7 +26,7 @@ namespace CoreWeb.Models
     }
 }
 ```
-在裡面再建立一個Service，還有可以新增和移除的方法
+再來建立`ConUserService`，這邊我建立在同一個檔案內，在內部建立一個`List`泛型內部裝剛剛建立的`ConUserModel`，建立新增及移除List的方法
 ``` cs
 public class ConUserService
 {
@@ -52,7 +51,7 @@ public class ConUserService
     }
 }
 ```
-到Starp.cs註冊Service
+再到`Starp.cs`註冊Service
 ``` cs
 public void ConfigureServices(IServiceCollection services)
 {
@@ -65,7 +64,7 @@ public void ConfigureServices(IServiceCollection services)
 ``` cs
 using CoreWeb.Models;
 ```
-Hub內宣告`List<ConUserMode>`，建構子裡面`new List<ConUserMode>`
+Hub內宣告`List<ConUserMode>`，建構子裡面接收從Servie傳過來的`List<ConUserMode>`，在載入到Hub內的List變數
 ``` cs
 namespace CoreWeb.Hubs
 {
@@ -139,9 +138,11 @@ connection.on("GetConList", function (ConList) {
     }
 })
 ```
-今天大概就這些，雖然它只是一個小組建，但是之後的實作都能套用到它。
 
+# DEMO
+<iframe width="560" height="315" src="https://www.youtube.com/embed/I0ZC48M9CDQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
+今天大概就這些，雖然它只是一個小組件，但是之後的實作都能套用到它，明天會會來個比較難一點的。
 
-
-
+# 範例下載
+- [今天範例](https://drive.google.com/file/d/1CNBCcMhbJuhb8vtmxjBt1Z11iRwfaGKF/view?usp=sharing)

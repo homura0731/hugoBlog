@@ -1,9 +1,8 @@
 ---
 title: "[鐵人賽Day9] 使用MessagePack傳輸更小的資料"
-date: 2018-09-30T14:55:04+08:00
-draft: true
+date: 2018-10-22T19:22:04+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, MessagePack]
 ---
 
 `MessagePack`是一個類似Json格式但是比Json速度更快、檔案更小，不過似乎還沒很流行就是了，既然`ASP.Net Core SignalR`文件上面有特別提到，那我們今天就來用用看這個新的資料格式吧!
@@ -11,9 +10,10 @@ tags: [2019鐵人賽]
 
 # MessagePack跟Json差在哪?
 MessagePack使用二進位序列化組成，下面是官方示意圖
+
 ![MeassagePackDEMO](MeassagePackDEMO.PNG)
 
-他會幫你把資料轉成二進位已達成更小的體積，官網有個Demo可以幫你把JSON轉成MessagePack，點進去後再點上方得Try
+從圖來看他會幫你把資料轉成二進位來達成更小的容量，從`27bytes`縮小到`18bytes`，縮小了快一半，如果長期下來真的是可以少不少的流量，官網有個Demo可以幫你把JSON轉成MessagePack，點進去後再點上方的`Try`
 
 [DEMO網址](https://msgpack.org/)
 
@@ -23,7 +23,7 @@ MessagePack使用二進位序列化組成，下面是官方示意圖
 ## 後端部分
 先用aspnet cli安裝
 ``` shell
-dotnet add package Microsoft.AspNetCore.SignalR.Protocols.MessagePack
+$ dotnet add package Microsoft.AspNetCore.SignalR.Protocols.MessagePack
 ```
 首先先在Starup.cs註冊服務，放在AddSignalR後面。
 ``` cs
@@ -31,7 +31,7 @@ services.AddSignalR().AddMessagePackProtocol();
 ```
 
 ## 前端部分
-我們要先用npm安裝套件
+我們要先用NPM安裝套件
 ``` shell
 $ npm install @aspnet/signalr-protocol-msgpack
 ```
@@ -66,17 +66,18 @@ const connection = new signalR.HubConnectionBuilder()
 
 打開F12 -> NetWork -> 找到type是Websocket -> 選擇後右邊在選Frames 
 
-來比較一下差別吧，資料統一貓派群組、名字和訊息都是123
+那麼就來比較一下差別吧，資料統一貓派群組、名字和訊息都是123
 
 下面這個是JSON，資料長度是傳送`91`，接收`73`
 
 ![Json](Json.gif)
 
-這個是MessagePack，傳送`41`，接收`49`
+這個是MessagePack，傳送`41`，接收`49`，資料也很明顯的改成二進位
 
 ![MessagePack](MessagePack.gif)
 
-結論是其實MessagePack資料量真的小蠻多，今天大概就介紹這樣吧！
+結論是其實MessagePack資料量真的小蠻多，所以要開發signalR時記得都要把它打開，反正signal會解析，我們只要安裝並套用設定就好了，今天大概就介紹這樣吧！
 
 # 參考
 - [MSDN文件](https://docs.microsoft.com/zh-tw/aspnet/core/signalr/messagepackhubprotocol?view=aspnetcore-2.1)
+- [MessagePack官網](https://msgpack.org/)

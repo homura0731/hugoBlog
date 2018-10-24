@@ -1,11 +1,12 @@
 ---
 title: "[鐵人賽Day10] SignalR 組態設定"
-date: 2018-10-01T20:31:44+08:00
-draft: true
+date: 2018-10-23T19:06:44+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, JavaScript]
 ---
-今天來講講SignalR的組態設定，組態有分Server組態和用戶組態2種
+先來碎碎念一下，昨天`gitpage`一直有問題，害我`git push`好幾次，後來發現repo裡的文件是新的沒錯，今天一看又好了，真是的浪費我快30分鐘
+
+今天來講講SignalR的組態設定，組態有分Server組態和用戶組態2種，就來看看怎麼設定吧！
 # Server組態設定
 主要在`Starup.cs`裡面設定，可以對全部Hub設定，也能只對一個Hub設定。
 
@@ -30,7 +31,7 @@ services.AddSignalR().AddHubOptions<ChatHub>(options =>
 ```
 ## 可設定變數
 
-|名稱             |解釋
+|名稱             |解釋       |
 |----------------|-----------|
 |HandshakeTimeout|初次建立連線的時間，超過時間User端都沒回應會建立連線失敗，其實這命名正是WebSocket的握手，時間使用`TimeSpan`設定|
 |KeepAliveInterval|無傳送訊息持，會ping Server以保持連線的時間，一樣使用`TimeSapn`設定|
@@ -57,6 +58,14 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 connection.serverTimeoutInMilliseconds = 500; // 設定500毫秒無回應，切斷連線
 ```
+或是從一開始建立就設定好也行
+``` js
+var connection = new signalR.HubConnectionBuilder()
+    .withUrl("/chatHub", {
+        serverTimeoutInMilliseconds: 500
+    })
+    .build();
+```
 可以設定的選項如下
 
 |名稱             |解釋
@@ -65,7 +74,11 @@ connection.serverTimeoutInMilliseconds = 500; // 設定500毫秒無回應，切�
 |accessTokenFactory|驗證用的Bearer Token|
 |skipNegotiation|跳過交涉的步驟，只支援WebSocket傳輸時|
 
-> 註：.NET用戶端可以設定很多，不知為什麼JS只有3個...
+> 註：.NET用戶端可以設定很多，不知為什麼JS用戶端只有3個...
 
 今天大概這些啦，MSDN文件感覺很多寫的太簡單，而且又是機器翻譯，實在是看不太懂....
 
+無聊的概念大概都講完了，明天就要開始實作吧！！
+
+# 參考
+- [MSDN文件](https://docs.microsoft.com/zh-tw/aspnet/core/signalr/configuration?view=aspnetcore-2.1)

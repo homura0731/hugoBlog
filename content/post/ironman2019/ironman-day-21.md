@@ -77,15 +77,15 @@ createTable();
 ![動態表格](table.gif)
 
 ## 編輯事件
-這邊我們要先做最基本的編輯處理，再我們沒編輯的Cell時，我們應該要把它給鎖上，為什麼要這樣做呢？因為再多人編輯時，你不應該同時讓超過1個人共同編輯同一`Cell`，因為這樣會非常混亂，所以我們要建立2個事件，一個是編輯時解鎖，一個是未編輯時鎖上。
+這邊我們要先做最基本的編輯處理，再我們沒編輯的Cell時，我們應該要把它給鎖上，為什麼要這樣做呢？因為再多人編輯時，你不應該同時讓超過1個人共同編輯同一`Cell`，因為這樣會非常混亂，所以我們要建立2個事件，一個是編輯時解鎖，一個是未編輯時鎖上，上鎖的方式原本我是用`disable`來達成，但是發現有些瀏覽器會造成無法觸發`click`事件，所以改用`readonly`是更好的選擇。
 ``` js
 // 未編輯鎖上Cell
 function cellLock() {
-    this.disabled = 'disabled';
+    this.readOnly = true;
 }
 // 編輯時解鎖Cell
 function cellEdit() {
-    this.childNodes[0].disabled = '';
+    this.childNodes[0].readOnly = false;
     // 焦點移至input
     this.childNodes[0].focus();
 }
@@ -109,7 +109,7 @@ function createCell() {
     var input = document.createElement('input');
     input.addEventListener('blur', cellLock);
     input.type = 'text';
-    input.disabled = 'disabled';
+    input.readOnly = true;
 
     return input;
 }
