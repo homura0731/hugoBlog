@@ -1,5 +1,5 @@
 ---
-title: "[鐵人賽Day17] 實作一個即時投票系統(2)"
+title: "[鐵人賽Day17] 實作一個即時投票系統 (2)"
 date: 2018-10-13T21:39:35+08:00
 draft: true
 categories: [2019鐵人賽]
@@ -145,7 +145,7 @@ namespace VoteWeb.Services
 }
 ```
 ## 建立VoteHub
-Hub在建構子先接收`VoteService`，再建立取得投票內容，這個方法傳給自己就好，然後投票和反對票則是傳給所有人還有這2個接收的事件一樣就行，不需要特別寫2種。
+先建立`VoteHub.cs`，Hub在建構子先接收`VoteService`，再建立取得投票內容，這個方法傳給自己就好，然後投票和反對票則是傳給所有人還有這2個接收的事件一樣就行，不需要特別寫2種。
 ``` cs
 using System;
 using Microsoft.AspNetCore.SignalR;
@@ -204,6 +204,36 @@ namespace VoteWeb.Hubs
     }
 }
 ```
+後端最後在`Startup.cs`引用Hub和Service
+``` cs
+using VoteWeb.Hubs;
+using VoteWeb.Services;
+```
+註冊`VoteService`和`signalR router`
+``` cs
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddSingleton<VoteService>();
+    services.AddSignalR();
+}
+
+// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+
+    app.UseSignalR(routes =>
+    {
+        routes.MapHub<VoteHub>("/voteHub");
+    });
+    
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+}
+```
 
 # 前端的部分
 首先報表的Data拉出來做一個變數，所以chartData裡面的data改成這樣
@@ -246,7 +276,7 @@ var chartData = {
     }
 }
 ```
-再來建立基本的連線，記得SignalR JS函式庫也要引入，連接完成後取得投票資料`GetVote`，`on("ReceiveVote")`接受到報表資料後，`array.push()`進變數內，完成後在開始畫出圖表。
+再來建立基本的連線，記得SignalR JS函式庫也要引入，連接完成後取得投票資料`GetVote`，`connection.on("ReceiveVote")`接受到報表資料後，`array.push()`進變數內，完成後在開始畫出圖表。
 ``` js
 var connection = new signalR.HubConnectionBuilder().withUrl("/voteHub").build();
 var myChart;
@@ -296,21 +326,54 @@ connection.on("ReceiveVoteSelectCount", function (json, voteSelect) {
 });
 ```
 最後在修改按鈕事件就大功告成！
-這邊我只寫一個就好，不然文實在太多事件了
 ``` js
-// 投票事件
 red.onclick = function () {
     AddVoteSelect('Red');
+}
+blue.onclick = function () {
+    AddVoteSelect('Blue');
+}
+yellow.onclick = function () {
+    AddVoteSelect('Yellow');
+}
+green.onclick = function () {
+    AddVoteSelect('Green');
+}
+purple.onclick = function () {
+    AddVoteSelect('Purple');
+}
+orange.onclick = function () {
+    AddVoteSelect('Orange');
 }
 
 // 反對票事件
 red2.onclick = function () {
     SubVoteSelect('Red');
 }
+blue2.onclick = function () {
+    SubVoteSelect('Blue');
+}
+yellow2.onclick = function () {
+    SubVoteSelect('Yellow');
+}
+green2.onclick = function () {
+    SubVoteSelect('Green');
+}
+purple2.onclick = function () {
+    SubVoteSelect('Purple');
+}
+orange2.onclick = function () {
+    SubVoteSelect('Orange');
+}
 ```
+還有記得安裝前端signal套件就完成啦！
+
+忘記的往回看Day3啊！XD
 
 # DEMO
+![VoteAsync](VoteAsync.gif)
 
-
+# 範例下載
+- [範例下載](https://drive.google.com/file/d/1W54zO8M3ycghF5LO0v1mWkXk0Srm6U3g/view?usp=sharing)
 
 

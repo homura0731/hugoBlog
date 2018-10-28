@@ -1,9 +1,8 @@
 ---
-title: "[鐵人賽Day13] 實作一個共用塗鴉牆(3)"
-date: 2018-10-09T21:04:26+08:00
-draft: true
+title: "[鐵人賽Day13] 實作一個共用塗鴉牆 (2) - signal同步畫板"
+date: 2018-10-26T10:52:26+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, JavaScript]
 ---
 今天要來做塗鴉牆第2部分，首先我們得想想該回傳些什麼，制定一個Json格式回傳回去。
 # 前端部分
@@ -27,7 +26,7 @@ connection.start().catch(function (err) {
     "lineWidth": 10       
 }
 ```
-## 在`mousermove`時回傳資料給Server
+## 在mousermove時回傳資料給Server
 每次畫線時都要回傳給Sever，所以要寫在`mousermove`裡面，回傳格式使用上面的Json格式
 ``` js
 connection.invoke("SendDraw", {
@@ -58,14 +57,14 @@ connection.on("ReceiveDraw", function (json) {
 # 後端部分
 我們先建立一個Models資料夾，裡面要用來裝我們建立的Json格式
 
-## 建立JsonModel容器
-在Models建立一個檔案`DrawJson`，用來裝Json格式
+## 建立DrawModel容器
+在Models建立一個檔案`DrawModel`，用來裝Json格式
 ``` cs
 using System;
 
 namespace DrawWall.Models
 {
-    public class DrawJson
+    public class DrawModel
     {
         public int[] startPos { get; set;}
         public int[] endPos { get; set;}
@@ -87,9 +86,9 @@ namespace DrawWall.Hubs
 {
     public class DrawHub : Hub
     {
-        public async Task SendDraw(DrawJson drawJson)
+        public async Task SendDraw(DrawModel drawData)
         {
-            await Clients.All.SendAsync("ReceiveDraw", drawJson);
+            await Clients.All.SendAsync("ReceiveDraw", drawData);
         }
     }
 }
@@ -116,7 +115,11 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     });            
 }
 ```
-這樣就完成了
+最後記得加入前端的signal套件，這樣就完成了
 
-## Demo影片
+# Demo
+![Draw](Draw2.gif)
+
+# 範例下載
+- [範例下載](https://drive.google.com/file/d/1vWuCLlLCdmOuj6Als5BmkLDf1FMDCrWL/view?usp=sharing)
 

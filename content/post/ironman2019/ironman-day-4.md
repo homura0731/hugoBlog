@@ -43,7 +43,7 @@ public abstract class Hub : IDisposable
 
 - `ConnectionId`：連接中的用戶識別碼
 - `UserIdentifier`：連接識別碼
-- `ConnectionId`：連接識別碼
+- `ConnectionAborted`：可得知連線中的用戶是否中止連接，正常連接時`IsCancellationRequested`為`false`
 
 `Groups`則是負責管理群組的屬性
 

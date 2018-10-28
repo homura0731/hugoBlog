@@ -1,5 +1,5 @@
 ---
-title: "[鐵人賽Day16] 實作一個即時投票系統(1)"
+title: "[鐵人賽Day16] 實作一個即時投票系統 (1)"
 date: 2018-10-12T21:45:26+08:00
 draft: true
 categories: [2019鐵人賽]
@@ -27,7 +27,7 @@ $ npm install chart.js --save
 <canvas id="myChart"></canvas>
 ```
 ## 開始繪製圖表
-Chart.js的繪圖，只要照官方給定的格式，丟進Chart物件中，Chart.js就會幫我們畫出來，然後我們把官方給的範例套進去，物件格式大概像下面這樣
+`Chart.js`的繪圖，只要照官方給定的格式，丟進Chart物件中，Chart.js就會幫我們畫出來，然後我們把官方給的範例套進去，物件格式大概像下面這樣
 ``` js
 var chartData =
 {
@@ -83,6 +83,8 @@ var chartData =
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, chartData);
 ```
+> 註：記得`new Chart`要放在`chartData`下面
+
 這時候執行應該就能看到圖表了，但是大小卻是充滿整個瀏覽器，所以我們要再Canvas外面包一個`<div>`元素，再給他長寬限制
 ``` html
 <style>
@@ -195,4 +197,11 @@ orange2.onclick = function(){
 
 ## DEMO
 
+![Chart](Chart.gif)
 
+其實`Chart.js`大部分的教學都是一次畫出，所以這篇我也是花了點時間做了點小測試，結果跟我想的一樣是可行的，可以邊改資料邊重繪圖表，那麼下一篇就開始與Signal做連線吧！！
+
+
+# 參考 & 範例下載
+- [Chart.js官方文件](http://www.chartjs.org/docs/latest/developers/api.html)
+- [範例下載](https://drive.google.com/file/d/1siiGw_2zK14l_Z6kLOPwRXRy88UnK1K_/view?usp=sharing)

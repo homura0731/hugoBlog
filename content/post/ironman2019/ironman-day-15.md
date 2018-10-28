@@ -1,9 +1,8 @@
 ---
-title: "[鐵人賽Day15] 實作一個共用塗鴉牆(4)"
-date: 2018-10-11T20:38:57+08:00
-draft: true
+title: "[鐵人賽Day15] 實作一個共用塗鴉牆 (4) - 載入時同步"
+date: 2018-10-28T09:31:57+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, JavaScript]
 ---
 今天應該最後一篇塗鴉牆了，來講講畫版載入時同步的功能，在載入時必須和前面畫過的畫面同步，避免之後進來的人看到的畫面跟先進來看到會有不一樣的狀況
 ，所以我們得做一個方法，在載入時就把存起來的動作一次畫完。
@@ -21,16 +20,16 @@ namespace DrawWall.Service
 {
     public class DrawService
     {
-        private List<DrawJson> _list;
+        private List<DrawModel> _list;
         public DrawService()
         {
-            _list = new List<DrawJson>();
+            _list = new List<DrawModel>();
         }
-        public void AddList(DrawJson drawJson)
+        public void AddList(DrawModel drawModel)
         {
-            _list.Add(drawJson);
+            _list.Add(drawModel);
         }
-        public List<DrawJson> GetList(DrawJson drawJson)
+        public List<DrawModel> GetList()
         {
             return _list;
         }
@@ -70,10 +69,10 @@ namespace DrawWall.Hubs
         {
             _drawService = drawService;
         }
-        public async Task SendDraw(DrawJson drawJson)
+        public async Task SendDraw(DrawModel drawModel)
         {
-            _drawService.AddList(drawJson);
-            await Clients.All.SendAsync("ReceiveDraw", drawJson);
+            _drawService.AddList(drawModel);
+            await Clients.All.SendAsync("ReceiveDraw", drawModel);
         }
         public async Task GetDraw()
         {
@@ -98,19 +97,19 @@ connection.start().then(function () {
 connection.on("ReciveAllDraw", function (json) {
     console.log(json);
     for (var i = 0; i < json.length; i++) {
-        switch (jsonp[i].mode) {
+        switch (json[i].mode) {
             case 'line':
-                ctx.strokeStyle = jsonp[i].color;
-                ctx.lineWidth = jsonp[i].lineWidth;
+                ctx.strokeStyle = json[i].color;
+                ctx.lineWidth = json[i].lineWidth;
                 ctx.beginPath();
-                ctx.moveTo(jsonp[i].startPos[0], jsonp[i].startPos[1]);
-                ctx.lineTo(jsonp[i].endPos[0], jsonp[i].endPos[1])
+                ctx.moveTo(json[i].startPos[0], json[i].startPos[1]);
+                ctx.lineTo(json[i].endPos[0], json[i].endPos[1])
                 ctx.closePath();
                 ctx.stroke();
                 break;
             case 'eraser':
-                var _eraserWidth = jsonp[i].eraserWidth;
-                ctx.clearRect(jsonp[i].startPos[0] - (_eraserWidth / 2), jsonp[i].startPos[1] - (_eraserWidth / 2), _eraserWidth, _eraserWidth);
+                var _eraserWidth = json[i].eraserWidth;
+                ctx.clearRect(json[i].startPos[0] - (_eraserWidth / 2), json[i].startPos[1] - (_eraserWidth / 2), _eraserWidth, _eraserWidth);
                 break;
         }
     }
@@ -118,8 +117,13 @@ connection.on("ReciveAllDraw", function (json) {
 
 ```
 這樣就完成囉！
-不過今天這篇有點短，不過文章開頭說最後一篇了，所以我們來聊聊我們還能做些什麼
+
+# DEMO
+![DrawSync](DrawSync.gif)
+
 # 塗鴉版未完成事項及用途
+不過今天這篇有點短，不過文章開頭說最後一篇了，所以我們來聊聊我們還能做些什麼
+
 - UI重新設計，這個很重要，好的UX才會讓使用者想用下去
 - 把剩下Cavans的繪圖API都做成工具，當然繪圖不能只有普通的直線和橡皮擦囉!
 - 加入連線名單及畫圖時的使用者名稱，要知道到底是誰在畫
@@ -129,4 +133,5 @@ connection.on("ReciveAllDraw", function (json) {
 
 今天大概就這些，明天就進入下一個實作了囉~
 
-
+# 範例下載
+[範例下載](https://drive.google.com/file/d/1msq6GjHBOMkfYMayVoV8qOvPssndTX87/view?usp=sharing)
