@@ -1,9 +1,8 @@
 ---
-title: "[鐵人賽Day17] 實作一個即時投票系統 (2)"
-date: 2018-10-13T21:39:35+08:00
-draft: true
+title: "[鐵人賽Day17] 實作一個即時投票系統 (2) - 使用signalR同步投票"
+date: 2018-10-30T19:43:35+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, Chart.js, JavaScript]
 ---
 今天要來把即時投票系統跟SignalR連線囉！
 

@@ -1,9 +1,8 @@
 ---
-title: "[鐵人賽Day18] 實作一個即時投票系統 (3)"
-date: 2018-10-15T20:53:29+08:00
-draft: true
+title: "[鐵人賽Day18] 實作一個即時投票系統 (3) - 自訂投票內容"
+date: 2018-10-31T19:22:29+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, Chart.js, JavaScript]
 ---
 今天繼續把投票系統沒做完的做完吧，上一篇我們是從後端建立一個新的投票，今天我們要做成改成前端建立投票，然後讓大家進去投票，這個部分有點長，所以也是拆成2偏來講。
 
@@ -15,7 +14,7 @@ tags: [2019鐵人賽]
 
 ``` html
 <!-- 投票頁面 -->
-<div id="vote" style="display:none">
+<div id="voteRoom" style="display:none">
     <div class="canvas">
         <canvas id="myChart"></canvas>
     </div>
@@ -79,8 +78,19 @@ selCount.addEventListener('change', function () {
 ![動態建立投票選項](voteSelCreate.gif)
 
 ## 建立CreateVote方法
-接下來我們要丟資料給`ChartHub`，`ChartService`上次已經建立過`CreateVote()`的方法了，我們在`ChartHub`建立一個新增投票的方法`CreateVote()`用來建立新的投票，建立完成記得回傳給所有人更新現有的投票列表
+接下來我們要丟資料給`ChartHub`，`ChartService`上次已經建立過`CreateVote()`的方法了，所以不需要了再做一個，我們還需要一個`GetVoteList`來取得所有的投票資料。
 
+**VoteService.cs**
+``` cs
+public List<VoteModel> GetVoteList()
+{
+    return voteModelList;
+}
+```
+
+接下來在`ChartHub`建立一個新增投票的方法`CreateVote()`用來建立新的投票，建立完成記得回傳給所有人更新現有的投票列表
+
+**ChartHub.cs**
 ``` cs
 public async Task CreateVote(string voteName,string[] voteSelect)
 {
@@ -137,3 +147,6 @@ document.getElementById('cancelCreateVote').addEventListener('click',function(){
 })
 ```
 今天先這樣，明天來完成列表頁面，然後再跟建立投票這頁整合。
+
+# 範例下載
+- [範例下載](https://drive.google.com/file/d/1HYi0QxOqa32TsuA3orROU0Z2C614c5Xe/view?usp=sharing)
