@@ -1,9 +1,8 @@
 ---
-title: "[鐵人賽Day21] 實作Web即時共同編輯文件 (1)"
-date: 2018-10-21T09:59:24+08:00
-draft: true
+title: "[鐵人賽Day21] 實作Web即時共同編輯文件 (1) - 建立文件編輯介面"
+date: 2018-11-03T09:37:24+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
 ---
 有沒有覺得第一次看到Google共用編輯文件很好玩，它把類似Excel功能搬到Web上，然後又能共同編輯，我們這次就是要來模仿做一個類似GOOGLE文件共同編輯的功能。
 
@@ -91,6 +90,9 @@ function cellEdit() {
     this.childNodes[0].focus();
 }
 ```
+
+> 註：這邊的`this`應該有人不知道是什麼，如果直接執行的話`this`會是`window`，但是我們塞在`td`和`input`裡，所以會變成`td`和`input`的DOM
+
 我們要把用監聽2個事件，一個是`onblur`焦點離開元素時，一個是`onclick`焦點移動到元素上時，有點要特別注意的地方是`onclick`必須寫再`td`元素上，不然事件不會被觸發，所以上面的CellEdit才會往裡面的元素找，使用`childNodes`的方式，所以我們得修改一下建立的方式`createTable`和`createCell`。
 ``` js
 function createTable() {
@@ -116,11 +118,12 @@ function createCell() {
 }
 ```
 完成結果
-![動態表格](table2.gif)
+![動態表格](CellLock.gif)
 
-> 註：我發現Firefox和Edge只能點擊表格框觸發，不曉得是為什麼？所以我們還是以Chrome為主，可以改用DIV的方式，但是難度大增，所以還是先用table吧！
+> 註：原本鎖定的方式我是用Disable，後來發現Firefox和Edge只能點擊表格框觸發，大概瀏覽器解釋方法不一樣，所以我們還是以Chrome為主，雖然可以改用DIV的方式，但是難度大增，所以還是先用table吧！
 
 今天就先做到這樣吧！ 
 
-# 參考
+# 參考 & 範例下載
 - [StackOverflow](https://stackoverflow.com/questions/6012823/how-to-make-html-table-cell-editable)
+- [範例下載](https://drive.google.com/file/d/1cPWHScDhs16DLxiIevOjzX3E5h5MPl4E/view?usp=sharing)

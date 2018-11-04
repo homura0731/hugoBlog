@@ -1,9 +1,8 @@
 ---
-title: "[鐵人賽Day20] 實作一個即時投票系統 (5)"
-date: 2018-10-19T19:32:53+08:00
-draft: true
+title: "[鐵人賽Day20] 實作一個即時投票系統 (5) - 讀取建立的投票"
+date: 2018-11-02T20:50:53+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, Chart.js, JavaScript]
 ---
 今天就是即時投票系統最後一篇了，讓我們努力把它完成吧！
 
@@ -93,7 +92,7 @@ var chartData = {
 進入投票頁面，先做切換頁面的動作，再取得投票資料，記得要把選擇的投票名稱也傳到`GetVote`裡
 ``` js
 // 進入投票頁面
-document.getElementById('goVote').addEventListener('click', function () {
+goVote.addEventListener('click', function () {
     // 頁面切換
     voteMenu.style.display = 'none';
     voteRoom.style.display = '';
@@ -104,7 +103,7 @@ document.getElementById('goVote').addEventListener('click', function () {
     });
 })
 ```
-接到資料後，開始塞進資料來源`chartData`物件裡，再把選項填入`voteSelList`裡面
+修改原本的`ReceiveVote`，接到資料後，開始塞進資料來源`chartData`物件裡，再把選項填入`voteSelList`裡面
 ``` js
 // 進入投票選單
 connection.on("ReceiveVote", function (json) {
@@ -145,7 +144,11 @@ voteMinus.addEventListener('click', function(){
 這樣就完成啦！！！
 
 # DEMO
+![VoteFinall](VoteFinall.gif)
 
+投票系統就到這邊告一段落啦！明天又是新的實作，敬請期待XD
 
+# 範例下載
+- [範例下載](https://drive.google.com/file/d/1TtcxhgtX0xWOPhG5g5LOqYh6nLcqzcUH/view?usp=sharing)
 
 

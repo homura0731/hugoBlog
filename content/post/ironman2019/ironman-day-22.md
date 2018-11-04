@@ -1,12 +1,12 @@
 ---
-title: "[鐵人賽Day22] 實作Web即時共同編輯文件 (2)"
-date: 2018-10-21T20:47:44+08:00
-draft: true
+title: "[鐵人賽Day22] 實作Web即時共同編輯文件 (2) - 使用signalR同步文件內容"
+date: 2018-11-04T09:14:44+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
 ---
 沒想到昨天光完成前端的部分就花那麼多時間，看來這次實作比上次難了不少，大概是因為沒使用套件的關係吧！ＸＤ
 
+那麼今天就來做signalR同步的部分吧。
 # 資料Binding
 
 我們要來想想再修改資料成功後，要怎麼回應給Server，回應格式要怎麼訂，先來訂一下後端的資料格式吧！
@@ -72,7 +72,8 @@ namespace EditFileWeb.Models
         public string creator { get; set; }
 
     }
-}```
+}
+```
 ## 建立FileServie
 再來建立`FileServie.cs`用來儲存我們的文件資料，基本上就是新增和取得和新增file，在一個`CreateTestFile`來建立測試用的方法，比較特別的是`EditFileCell`修改cell的方法，這次我們用比較聰明的`LINQ`來達成，上一個實作寫太趕了，一直忘記`List`和`Dictionary`都有實作` IEnumerator`，所以能用`LINQ`來做查詢修改。
 
@@ -127,7 +128,6 @@ namespace EditFileWeb.Services
             fileModel.filename = "TestFile";
             fileModel.row = 5;
             fileModel.column = 5;
-            fileModel.editor = new List<string>();
             fileModel.editor = new List<UserModel>();
             List<CellModel> textList = new List<CellModel>();
             for (int i = 0; i < 5; i++)
@@ -191,7 +191,13 @@ namespace EditFileWeb.Hubs
 }
 ```
 
-`Starup.cs`註冊`FileService`和signalR的Router
+`Starup.cs`先引用`Hub`和`Service`
+``` cs
+using EditFileWeb.Hubs;
+using EditFileWeb.Services;
+```
+
+再註冊`FileService`和signalR的Router
 ``` cs
 public void ConfigureServices(IServiceCollection services)
 {
@@ -217,7 +223,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 ```
 
 # 前端處理
-再來最後的前端的部分，我們先把`createTable()`這方法刪掉，因為我們現在是要由後端丟回的資訊，來決定怎麼畫表格。
+首先安裝前端signalR套件，再來最後的前端的部分，我們先把`createTable()`這方法刪掉，因為我們現在是要由後端丟回的資訊來決定怎麼畫表格。
 ## 取得資料畫出表格
 首先我們要修改畫表格的方式，連線成功後馬上取得File的資訊，呼叫`GetFile()`方法，然後再接收方法內開始畫表格，因為我們file資訊內有設定`row`和`column`，所以就輕鬆用2個for迴圈畫出來就行，然後要再迴圈內幫cell建立ID
 ``` js
@@ -269,6 +275,7 @@ connection.on("ReceiveFile", function (file) {
             cell.addEventListener('click', cellEdit);
             // cell塞入change事件
             cell.addEventListener('input', change);
+            // 建立cell填入後端紀錄的值
             cell.appendChild(createCell(file.textList[count].text));
             row.appendChild(cell);
             count++;
@@ -282,11 +289,26 @@ connection.on("ReceiveEditText", function (cellName, text) {
 });
 
 ```
+最後再建立cell時填入後端傳回的值，這樣不同時間進來的人就讀到一樣的內容
+``` js
+// 建立Cell
+function createCell(text) {
+    var input = document.createElement('input');
+    input.addEventListener('blur', cellLock);
+    input.value = text;
+    input.type = 'text';
+    input.readOnly = true;
+    return input;
+}
+```
+
 到這邊就完成啦!!!，明天我們再來寫其他細節的部分。
 
 # DEMO
 ![EditFile](EditFile.gif)
 
+# 範例下載
+- [範例下載](https://drive.google.com/file/d/1zHBBiwpyB4biflcTgB-m6_lvj1oaQbFk/view?usp=sharing)
 
 
 

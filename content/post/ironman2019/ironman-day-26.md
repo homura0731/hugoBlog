@@ -19,7 +19,7 @@ tags: [2019鐵人賽]
 
 </div>
 
-<!-- 文件建立表單 -->
+<!-- 文件編輯畫面 -->
 <div id="fileDiv" style="display:none">
     <div class="onlineList" id="onlineList">
     </div>
@@ -29,7 +29,7 @@ tags: [2019鐵人賽]
     </table>
 </div>
 
-<!-- 文件編輯畫面 -->
+<!-- 文件建立表單 -->
 <div id="createFileDiv" style="display:none">
 
 </div>
@@ -46,13 +46,13 @@ var createFileDiv = document.getElementById('createFileDiv');
 首先我們先做登錄畫面，登入畫面只需要輸入名稱就行，因為我們沒做資料庫，不需要帳號密碼XD
 ``` html
 Name:
-<input id="name" type="text" class="nameInput">
+<input id="name" type="text" class="input">
 <br>
 <button id="connectBtn" type="button">連線</button>
 ```
 還有因為把`input`改成透明了，所以名稱這邊要給他樣式，不然看不到
 ``` css
-.nameInput{
+.input{
     background: white;
     border: 1px solid;
 }
@@ -129,7 +129,9 @@ connection.start()
 最後得到資料後，把資料填入`select`列表內
 ``` js
 connection.on("ReceiveFileList", function (fileListDate) {
-    console.log(fileListDate);
+    // 清空列表
+    fileList.innerHTML = '';
+    // 建立列表
     for (var i = 0; i < fileListDate.length; i++) {
         var option = document.createElement('option');
         option.innerHTML = fileListDate[i].filename;
@@ -137,3 +139,8 @@ connection.on("ReceiveFileList", function (fileListDate) {
     }
 });
 ```
+
+# DEMO
+![Login](Login.gif)
+
+今天就這些，明天來完成最後的部分

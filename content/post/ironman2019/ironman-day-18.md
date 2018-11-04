@@ -108,7 +108,7 @@ public async Task CreateVote(string voteName,string[] voteSelect)
     voteModel.voteSelect = _voteSelect;
     _voteService.CreateVote(voteModel);
 
-    await Clients.Caller.SendAsync("ReceiveVoteList", _voteService.GetVoteList());
+    await Clients.All.SendAsync("ReceiveVoteList", _voteService.GetVoteList());
 }
 ```
 
