@@ -1,16 +1,15 @@
 ---
-title: "[鐵人賽Day24] 實作Web即時共同編輯文件 (4)"
-date: 2018-10-27T13:40:39+08:00
-draft: true
+title: "[鐵人賽Day24] 實作Web即時共同編輯文件 (4) - 幫編輯中的表格添加顏色"
+date: 2018-11-06T19:32:39+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
 ---
 今天要來幫編輯中的表格更換顏色，顏色就是昨天做的使用者顏色，這次是要放到編輯的`cell`內，並且鎖住不讓其他人同時編輯。
 
 # 幫編輯中的表格著色
-我們前後端拆開來做
+我發現直接對表格誆著色會怪怪，所以改成表格背景著色，那麼就開始時做吧，我們前後端拆開來做，首先做後端。
 ## 後端部分
-首先要來得先在後端的編輯動作中加入使用者，先來修改`FileServie`的`EditFileCell`的動作，修改的同時還要加入使用者，記得接收參數在多個`user`
+首先要來得先在後端的編輯動作中加入使用者，先來修改`FileServie`的`EditFileCell`的動作，加入修改使用者及表格預設鎖上的狀態，記得接收參數在多個`user`用來辨識目前修改人是誰。
 
 ``` cs
 public CellModel EditFileCell(string fileName, string cellName, string text,string user)
@@ -29,7 +28,7 @@ public CellModel EditFileCell(string fileName, string cellName, string text,stri
     return cell;
 }
 ```
-修改`FileHub`的`EditText`動作，只要把`ConnectionId`丟進`Service`裡，再多加個回傳使用者就行
+修改`FileHub`的`EditText`動作，只要把`ConnectionId`使用`EditFileCell`方法丟進`Service`裡，再多加個回傳使用者就行
 ``` cs
 public async Task EditText(string fileName, string cellName, string text)
 {
@@ -38,7 +37,7 @@ public async Task EditText(string fileName, string cellName, string text)
 }
 ```
 ## 前端部分
-我們只需要幫`ReceiveEditText`加些料就行，首先先判斷這個修改表格的是否為自己，是的話就修改表格顏色及接收修改過的內容
+我們只需要幫`ReceiveEditText`加些料就行，首先先判斷這個修改表格的是否為自己，不是的話就修改表格顏色及接收修改過的內容
 ``` js
 connection.on("ReceiveEditText", function (cellName, text, user) {
     var cell = document.getElementById(cellName);
@@ -98,3 +97,5 @@ connection.on("ReceiveCancelEditText", function (fileName,cellName) {
 
 其實做到這邊還有很多地方需要修正，明天我們就把一些小問題一次做完，今天就這樣啦！！
 
+# 範例下載
+- [範例下載](https://drive.google.com/file/d/1mbxe9grmpog-IvoZZck3uqv7VUp6dFIy/view?usp=sharing)

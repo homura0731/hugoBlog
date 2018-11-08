@@ -156,7 +156,7 @@ public bool AddUser(string fileName, string id, string name)
     return true;
 }
 ```
-再來`FileHub`部分，也是多一個名稱變數，在新增進去就行。
+再來`FileHub`部分，也是多一個名稱變數，使用`AddUser`新增進去就行。
 ``` cs
 public async Task GetFile(string fileName, string name)
 {

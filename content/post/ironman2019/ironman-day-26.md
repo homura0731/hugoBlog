@@ -1,9 +1,8 @@
 ---
-title: "[鐵人賽Day26] 實作Web即時共同編輯文件 (6)"
-date: 2018-10-28T16:14:18+08:00
-draft: true
+title: "[鐵人賽Day26] 實作Web即時共同編輯文件 (6) - 新增登錄畫面及選擇文件列表"
+date: 2018-11-08T16:14:18+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
 ---
 今天我們要來做自訂表格內容和連線列表，既然建立表格的方法都訂好了，當然要能從前端建立啊!XD
 
@@ -82,6 +81,7 @@ connectBtn.addEventListener('click', function () {
     });
 });
 ```
+> 註：原本的`connection.start()`記得刪除
 
 # 連線文件列表建立
 我們一樣建立一個`select`元素當列表，一樣記得給他`multiple`屬性，上面放建立文件的`button`，下面放選擇文件的`button`
@@ -114,11 +114,11 @@ public async Task GetFileList()
     await Clients.Caller.SendAsync("ReceiveFileList", _service.GetFileList());
 }
 ```
-最後到回前端的連線事件從`GetFile`改成`GetFileList`
+回前端的連線`connectBtn`的`click`事件從`GetFile`改成`GetFileList`，然後傳回的變數`LoadFile`刪除。
 ``` js
 connection.start()
 .then(function () {
-    connection.invoke('GetFileList', LoadFile).catch(function (err) {
+    connection.invoke('GetFileList').catch(function (err) {
         return console.error(err.toString());
     });
 })
@@ -143,4 +143,7 @@ connection.on("ReceiveFileList", function (fileListDate) {
 # DEMO
 ![Login](Login.gif)
 
-今天就這些，明天來完成最後的部分
+今天就這些，明天來完成新增文件表單及讀取文件的部分
+
+# 範例下載
+- [範例下載](https://drive.google.com/file/d/1WptH_LLN2_0_SyrknSXdusRjj3Nz_Jxg/view?usp=sharing)

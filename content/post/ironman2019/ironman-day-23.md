@@ -1,11 +1,10 @@
 ---
-title: "[鐵人賽Day23] 實作Web即時共同編輯文件 (3)"
-date: 2018-10-26T15:26:42+08:00
-draft: true
+title: "[鐵人賽Day23] 實作Web即時共同編輯文件 (3) - 加入上線使用者清單"
+date: 2018-11-05T20:02:42+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
 ---
-昨天我們做到能互相傳遞編輯的文字，今天我們要來實現上線的名單
+昨天我們做到能互相傳遞編輯的文字，今天我們要來實現上線的名單吧！
 # 建立上線名單
 首先我們來做一下上線名單的樣式，Day11一個Select元素裝進去太醜了，這次我做成跟google一樣用橫的，放在表格的正上方，我要定義3個區塊的CSS，一個是上線列表、一個是代表的顏色區塊、一個是使用者。
 ``` css
@@ -26,22 +25,25 @@ tags: [2019鐵人賽]
     display: inline-block;
     margin-right: 3px;
     padding-right: 5px;
+    /* 分隔線 */
     border-right: 2px gray solid;
 }
 ```
 html部分記得放在表格上面
 ``` html
-<div class="onlineList">
-</div>
+<div  id="userList" class="onlineList"></div>
 <hr>
 ```
-
+載入DOM
+``` js
+var userList = document.getElementById('userList');
+```
 # 後端部分
 我們需要在後端控制加入和退出的動作，然後再把連線列表傳給所有人
 ## 修改FileService
 首先先在FileService增加取得所有使用者、加入、移除使用者的功能，加入使用者`AddUser`在加入時，我們需要隨機產生一個代表色給他，主要注意的是這次的`RemoveUser`，不要使用`LINQ`的方式，改用foreach找出來`user id`，再移除他，移除後記得傳回名單，因為`GetUserList`是使用`fileName`的方式找出來，使用者離線時無法得知他用哪個文件。
 ``` cs
-public List<string> GetUserList(string fileName)
+public List<UserModel> GetUserList(string fileName)
 {
     var file = (from f in list where f.filename == fileName select f).FirstOrDefault();
 
@@ -141,8 +143,8 @@ connection.on("ReceiveUserList", function (userListData) {
 # DEMO
 ![OnlineList](OnlineList.gif)
 
-# 參考
+# 參考 & 範例下載
 - [JS取得queryString](https://www.cnblogs.com/sunnycoder/archive/2010/02/28/1674998.html)
-
+- [範例下載](https://drive.google.com/file/d/1TZSUJQtxCqOHJDIJCVdf3gyOaRq2BVL4/view?usp=sharing)
 
 

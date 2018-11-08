@@ -8,7 +8,7 @@ tags: [2019鐵人賽]
 真的是越複雜的功能，越容易出現不少的BUG，前面做了7篇原本以為我大概的狀況我都有抓到，直到昨天做完發現蠻多BUG，所以今天就來幫這個時做來做最後修正吧！
 
 # 不同文件間上線名單互相干擾BUG
-這個還真的是做完才發現，首先我們要到`FileHub`取得文件這邊，增加一個`fileName`參數，傳送回去`ReceiveUserList`也要多個`fileName`，這樣Client端才會知道這是哪個文件的UserList，再決定要不要更新使用者清單。
+這個還真的是做完才發現，我們需要新增群組的規則，首先我們要到`FileHub`取得文件這邊，使用`Groups.AddToGroupAsync()`把使用者加入群組，然後在傳回上線人員清單時，改成只傳群組內的人，這邊的群組也就等於是哪個文件，所以群組名稱就是使用`FileName`。
 ``` cs
 public async Task GetFile(string fileName, string name)
 {
@@ -16,50 +16,61 @@ public async Task GetFile(string fileName, string name)
     var file = _service.GetFile(fileName);
     // 加入使用者
     _service.AddUser(fileName, Context.ConnectionId, name);
-
+    // 加入群組
+    await Groups.AddToGroupAsync(Context.ConnectionId,fileName);
+    // 回傳文件
     await Clients.Caller.SendAsync("ReceiveFile", file);
-    await Clients.All.SendAsync("ReceiveUserList", fileName, _service.GetUserList(fileName));
+    // 回傳同個文件編輯者的上線清單
+    await Clients.Group(fileName).SendAsync("ReceiveUserList", fileName, _service.GetUserList(fileName));
 }
 ```
-再來是`EditText`這個方法，我原本就有設計要修改哪個文件，但是卻忘記丟回是哪個文件倍修改，記得回傳多補上一個`fileName`參數。
+再來編輯文件和取消編輯一樣改成群組傳送
 ``` cs
 // 編輯文件
 public async Task EditText(string fileName, string cellName, string text)
 {
     var editText = _service.EditFileCell(fileName, cellName, text, Context.ConnectionId);
-    await Clients.All.SendAsync("ReceiveEditText", fileName, cellName, editText.text, editText.editor);
+    await Clients.Group(fileName).SendAsync("ReceiveEditText", fileName, cellName, editText.text, editText.editor);
+}
+
+// 取消編輯文件
+public async Task CancelEditText(string fileName, string cellName)
+{
+    var editText = _service.CancelEditFileCell(fileName, cellName);
+    await Clients.Group(fileName).SendAsync("ReceiveCancelEditText", fileName, cellName);
 }
 ```
-前端有3個接收事件要辨識是否為自己編輯的文件，分別是`ReceiveEditText`、`ReceiveUserList`、`ReceiveCancelEditText`，還有`ReceiveEditText`、`ReceiveUserList`記得加上`fileName`參數。
-``` js
-connection.on("ReceiveEditText", function (fileName, cellName, text, user) {
-    // 判斷是否為同一個文件
-    if (LoadFile === fileName) {
-        var cell = document.getElementById(cellName);
-        // 判斷是否為自己
-        if (getQueryStringByName('id') != user) {
-            cell.childNodes[0].value = text;
-            cell.childNodes[0].style.backgroundColor = document.getElementById(user).childNodes[0].style.backgroundColor;
-        }
-    }
-});
+最後是斷線時的處理，我們新增一個`RemoveUser`的方法，在斷線時呼叫此方法來移除使用者。
+``` cs
+// 斷線時移除使用者
+public async Task RemoveUser(string fileName, string name)
+{
+    // 從群組移除使用者
+    await Groups.RemoveFromGroupAsync(Context.ConnectionId, fileName);
+    // 移除使用者並重新傳回使用者的表單 
+    await Clients.Group(fileName).SendAsync("ReceiveUserList", fileName, _service.RemoveUser(Context.ConnectionId));
+}
 
-// 傳送使用者清單
-connection.on("ReceiveUserList", function (fileName, userListData) {
-    // 判斷是否為同一個文件
-    if (LoadFile === fileName) {
-        // 略...
-    }
-});
-
-connection.on("ReceiveCancelEditText", function (fileName, cellName) {
-    // 判斷是否為同一個文件
-    if (LoadFile === fileName) {
-        var cell = document.getElementById(cellName);
-        cell.childNodes[0].style.background = 'transparent';
-    }
-});
+// 斷線
+public override async Task OnDisconnectedAsync(Exception exception)
+{
+    await base.OnDisconnectedAsync(exception);
+}
 ```
+前端呼叫寫在關閉視窗事件裡
+``` js
+window.onbeforeunload = function () {
+    connection.invoke('CancelEditText', LoadFile, editCell).catch(function (err) {
+        return console.error(err.toString());
+    });
+    connection.invoke('RemoveUser', LoadFile, editCell).catch(function (err) {
+        return console.error(err.toString());
+    });
+```
+
+
 # 添加編輯者提示
+
+
 
 # 禁止2人同時編輯同個cell

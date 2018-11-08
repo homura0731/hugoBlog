@@ -1,11 +1,10 @@
 ---
-title: "[鐵人賽Day25] 實作Web即時共同編輯文件 (5)"
-date: 2018-10-28T09:12:26+08:00
-draft: true
+title: "[鐵人賽Day25] 實作Web即時共同編輯文件 (5) - 一些小功能修正"
+date: 2018-11-07T19:27:26+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
 ---
-今天是一些小地方的修正，其實做到這邊還有很多需要修正的地方，一個是重整後編輯中的顏色不會重新讀取，一個是小BUG，就是在編輯的人沒移開編輯中的`cell`，會造成沒回傳取消編輯的狀態，好我們來修正一下吧！
+今天是一些小地方的修正，其實做到這邊還有很多需要修正的地方，一個是重整後編輯中的顏色不會重新讀取，一個是編輯中關閉不會回船取消編輯，就是在編輯的人沒移開編輯中的`cell`，會造成沒回傳取消編輯的狀態，今天就來修正一下這些問題吧！
 
 # 重整後重新讀取顏色
 首先修改一下`FileHub`，傳回資料的順序修改一下，改成`ReceiveUserList`先傳在傳送`ReceiveFile`
@@ -50,7 +49,7 @@ connection.on("ReceiveFile", function (file) {
 
 
 # 避免編輯中關閉視窗
-這邊可以依靠`window`的`onbeforeunload`事件來避免這問題，先創一個暫存編輯中cell id的變數，然後再編輯時`cellEdit`丟入，最後呼叫`onbeforeunload`事件丟回取消事件。
+這邊可以依靠`window`的`onbeforeunload`事件來避免這問題，先創一個暫存編輯中cell id的變數`editCell`，然後再編輯時`cellEdit`丟入，最後呼叫`onbeforeunload`事件丟回取消事件。
 ``` js
 var editCell;
 
@@ -76,7 +75,7 @@ window.onbeforeunload = function(){
 ``` js
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
 ```
-使用`debounce()`方法來延遲傳回去的時間，`lodash`預設變數是`_`，所以我們要這樣呼叫`_.debounce()`，debounce還能設定延遲幾毫秒，我們延遲300毫秒傳回，然後寫在cell的input事件裡就行，第一個參數塞進要執行的function，第二個則是延遲的時間
+使用`debounce()`方法來延遲傳回去的時間，`lodash`預設變數是`_`，所以我們要這樣呼叫`_.debounce()`，debounce還能設定延遲幾毫秒，我們設定延遲300毫秒傳回，然後寫在cell的input事件裡就行，在`connection.on("ReceiveFile")`裡面，第一個參數塞進要執行的function，第二個則是延遲的時間
 ``` js
 cell.addEventListener('input', _.debounce(change, 300));
 ```
@@ -90,5 +89,8 @@ cell.addEventListener('input', _.debounce(change, 300));
 var LoadFile = 'TestFile';
 ```
 
-今天就這樣，明天來做多文件和建立文件吧！
+今天就這樣，明天來做多文件選擇和建立文件吧！
+
+# 範例下載
+- [範例下載](https://drive.google.com/file/d/1mvQuzZeHd98l3vzEV9ZxZeFEoW9Rd8Kb/view?usp=sharing)
 
