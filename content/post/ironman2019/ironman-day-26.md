@@ -20,7 +20,7 @@ tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
 
 <!-- 文件編輯畫面 -->
 <div id="fileDiv" style="display:none">
-    <div class="onlineList" id="onlineList">
+    <div class="onlineList" id="userList">
     </div>
     <hr>
     <table id="table">

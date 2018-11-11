@@ -1,11 +1,10 @@
 ---
-title: "[鐵人賽Day27] 實作Web即時共同編輯文件 (7)"
-date: 2018-11-03T16:07:31+08:00
-draft: true
+title: "[鐵人賽Day27] 實作Web即時共同編輯文件 (7) - 新增自訂文件及載入自訂文件"
+date: 2018-11-09T20:26:31+08:00
 categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
 ---
-今天就來完成最後的部分吧！最後要載入和建立自訂的文件，首先來先來做建立的部分
+今天就來完成最後的部分吧！最後要載入和建立自訂的文件，首先來先來做建立文件的部分
 
 # 建立自訂文件
 首先先建立切換畫面事件，讓建立文件的Button能切換頁面
@@ -92,7 +91,7 @@ public async Task CreateFile(string fileName, int col, int row)
 ```
 
 # 讀取文件部分修改
-讀取文件的按鈕事件，先把讀曲中的`LoadFile`換成選擇的`fileName`，再來因為我們已經多了名稱的機制，所以讀取文件時多傳一個`name`回去
+回到前端部分，讀取文件的按鈕事件，先把讀取中的`LoadFile`對象換成選擇的文件`fileName`，再來因為我們已經多了名稱的機制，所以讀取文件時多傳一個`name`回去
 ``` js
 // 取得文件按鈕事件
 getFileBtn.addEventListener('click', function () {
@@ -132,15 +131,16 @@ connection.on("ReceiveUserList", function (userListData) {
         userColor.className = 'userColor';
         userColor.style.backgroundColor = userListData[i].color;
         user.appendChild(userColor);
+        // 判斷對象改成名稱
         if (name == userListData[i].name)
             user.append('自己');
         else
-            user.append(userListData[i].name);
+            user.append(userListData[i].name); // 改成塞進名稱
         userList.appendChild(user);
     }
 });
 ```
-後端也需要修改，首先是`FileService`的`AddUser`，需要增加一個使用者名稱變數`name`，然後塞進`UserModel`容器內。
+後端也需要修改，首先是`FileService`的`AddUser`，需要增加接收一個使用者名稱變數`name`，然後塞進`UserModel`容器內。
 ``` cs
 public bool AddUser(string fileName, string id, string name)
 {
@@ -165,15 +165,20 @@ public async Task GetFile(string fileName, string name)
     // 加入使用者
     _service.AddUser(fileName, Context.ConnectionId, name);
 
-    await Clients.Caller.SendAsync("ReceiveFile", file);
     await Clients.All.SendAsync("ReceiveUserList", _service.GetUserList(fileName));
+    await Clients.Caller.SendAsync("ReceiveFile", file);
 }
 ```
 這樣就大功告成啦！！！
 
 # DEMO
 ![FileEditFinal](FileEditFinal.gif)
+發現時間有點長，多個影片版
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fXFrCN7lH7M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 做完這邊發現有不少BUG，明天再來把這些小BUG慢慢地修正完成！
 
 
+# 範例下載
+- [範例下載](https://drive.google.com/file/d/1Lrq5kkinHoa3Zpd7FYdM0rZ4jUw8LBpQ/view?usp=sharing)
