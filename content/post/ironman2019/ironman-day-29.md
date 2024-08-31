@@ -1,5 +1,5 @@
 ---
-title: "[鐵人賽Day29] 部屬Signal到Server上"
+title: "[鐵人賽Day29] 部署SignalR到Server上"
 date: 2018-11-11T07:32:33+08:00
 categories: [2019鐵人賽]
 tags: [2019鐵人賽, SignalR, ASP.NET Core]
