@@ -1,8 +1,8 @@
 ---
 title: Cordova - 環境安裝
 date: 2017-04-23 19:19:59
-categories: [Cordova]
-tags: [Cordova,JavaScript]
+categories: "Cordova"
+tags: ["Cordova","JavaScript"]
 ---
 # 前言
 ## 什麼是Cordova?

@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day28] 實作Web即時共同編輯文件 (8) - 最後的BUG修正+小功能添加"
 date: 2018-11-10T10:23:05+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "ShareFile", "JavaScript"]
 ---
+
 真的是越複雜的功能，越容易出現不少的BUG，前面做了7篇原本以為我大概的狀況我都有抓到，直到昨天做完發現蠻多BUG，所以今天就來幫這個時做來做最後修正吧！
 
 # 不同文件間上線名單互相干擾BUG
@@ -120,6 +121,7 @@ connection.on("ReceiveCancelEditText", function (fileName, cellName) {
 });
 ```
 ## DEMO
+
 ![FileEditTitle](FileEditTitle.gif)
 
 由於後來試了一下，Google的文件編輯，其實並沒鎖住2個人同時編輯同個表格，所以這部份我就不做了，所以文件共同編輯我就做到這邊囉，明天就來教教大家該怎麼去部屬自己的`SignalR App`到`Server`上面。

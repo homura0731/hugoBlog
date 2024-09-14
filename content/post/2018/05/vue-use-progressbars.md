@@ -1,8 +1,8 @@
 ---
 title: "Vue.js - 使用BootStrap4 Progress Bar"
 date: 2018-05-14T21:20:59+08:00
-categories: [Vue.js]
-tags: [Vue.js,Bootstrap4]
+categories: "Vue.js"
+tags: ["Vue.js", "Bootstrap4"]
 ---
 # 前言
 這篇是我在IT邦幫忙第一個最佳解,也是第一個回答

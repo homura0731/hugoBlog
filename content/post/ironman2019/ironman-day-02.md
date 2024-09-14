@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day2] 架設SignalR環境"
 date: 2018-10-15T19:28:52+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, .Net Core]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", ".Net Core"]
 ---
+
 今天來先來裝需要的環境
 # 需要的OS環境
 OS環境Windows、Linux、Mac OS任一都行，主要操作是用`dotNet CLI`和`VS Code`不用擔心會有不一樣的操作流程，如果你使用Visual Studio使用UI操作也是可以，但是這邊還是讓大家學學`dotNet CLI`和`VS Code`怎麼用比較好，畢竟是3個環境都能統一用的方法，學一下對自己沒壞處。

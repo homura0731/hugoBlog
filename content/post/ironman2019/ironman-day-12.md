@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day12] 實作一個共用塗鴉牆 (1) - 前端塗鴉板製作"
 date: 2018-10-25T20:05:47+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "JavaScript"]
 ---
+
 今天我們來實作一個共用塗鴉牆，其實之前看到Canvas的應用一直想玩玩看，但是一直都沒時間玩，剛好這次SignalR實作可以用到!XD
 這次實作拆成2部分，一部分是塗鴉的實作，第二天在做SignalR的部分。
 

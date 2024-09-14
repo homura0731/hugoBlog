@@ -1,8 +1,8 @@
 ---
 title: "[鐵人賽Day19] 實作一個即時投票系統 (4) - 建立投票列表"
 date: 2018-11-01T19:23:53+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, Chart.js, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "Chart.js", "JavaScript"]
 ---
 
 今天我們要來做投票列表，概念跟[Day11](/post/ironman2019/ironman-day-11)的上線名單一模一樣，忘記的可以去回顧一下，那麼我們就開始吧！

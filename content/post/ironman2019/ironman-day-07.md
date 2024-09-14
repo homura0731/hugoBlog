@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day7] SignalR 群組概念與使用"
 date: 2018-10-20T12:03:55+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, JavaScript, ASP.NET Core]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "JavaScript", "ASP.NET Core"]
 ---
+
 今天來介紹群組的運作，不知道會不會有人問為什麼要群組？？總不能每次訊息都傳給所有人吧!XD
 
 所以今天就讓我們好好來介紹一下SignalR群組運作的方式。

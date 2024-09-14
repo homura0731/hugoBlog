@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day18] 實作一個即時投票系統 (3) - 自訂投票內容"
 date: 2018-10-31T19:22:29+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, Chart.js, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "Chart.js", "JavaScript"]
 ---
+
 今天繼續把投票系統沒做完的做完吧，上一篇我們是從後端建立一個新的投票，今天我們要做成改成前端建立投票，然後讓大家進去投票，這個部分有點長，所以也是拆成2偏來講。
 
 

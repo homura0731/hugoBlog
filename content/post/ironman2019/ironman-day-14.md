@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day14] 實作一個共用塗鴉牆 (3) - 新增橡皮擦功能"
 date: 2018-10-27T10:31:00+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "JavaScript"]
 ---
+
 今天我們要幫塗鴉牆加上橡皮擦的功能，只能畫不能擦掉感覺真的是蠻奇怪的，當然擦的時候也要同時擦全部的畫版。
 
 # 橡皮擦功能

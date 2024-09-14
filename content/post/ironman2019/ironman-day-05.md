@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day5] 使用SignalR Hub (2)"
 date: 2018-10-18T20:38:52+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.Net Core]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.Net Core"]
 ---
+
 今天來點輕鬆的吧！來寫寫強型別的Hub和把HubContext注入Controller
 
 # 強型別Hub的好處

@@ -1,8 +1,8 @@
 ---
 title: Hexo - 文章分類方法
 date: 2017-04-16 14:40:48
-categories: [Hexo]
-tags: [Hexo]
+categories: "Hexo"
+tags: ["Hexo"]
 ---
 # 前言
 雖然Hexo這框架我才用幾天，但發現文章都集中在source/_post 底下

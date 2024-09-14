@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day10] SignalR 組態設定"
 date: 2018-10-23T19:06:44+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "JavaScript"]
 ---
+
 先來碎碎念一下，昨天`gitpage`一直有問題，害我`git push`好幾次，後來發現repo裡的文件是新的沒錯，今天一看又好了，真是的浪費我快30分鐘
 
 今天來講講SignalR的組態設定，組態有分Server組態和用戶組態2種，就來看看怎麼設定吧！

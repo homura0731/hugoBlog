@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day27] 實作Web即時共同編輯文件 (7) - 新增自訂文件及載入自訂文件"
 date: 2018-11-09T20:26:31+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "ShareFile", "JavaScript"]
 ---
+
 今天就來完成最後的部分吧！最後要載入和建立自訂的文件，首先來先來做建立文件的部分
 
 # 建立自訂文件
@@ -172,7 +173,9 @@ public async Task GetFile(string fileName, string name)
 這樣就大功告成啦！！！
 
 # DEMO
+
 ![FileEditFinal](FileEditFinal.gif)
+
 發現時間有點長，多個影片版
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/fXFrCN7lH7M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

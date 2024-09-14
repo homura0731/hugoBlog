@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day4] 使用SignalR Hub (1)"
 date: 2018-10-17T19:11:15+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.Net Core]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.Net Core"]
 ---
+
 # SignalR Hub是什麼?
 其實你從它的名字也看得出來是什麼，Hub不就是集線器的意思XD，不過這邊的線不是網路線而是`Browser`和`Server`溝通的橋樑，簡單來說就是幫你跟瀏覽器溝通的一個組件，有了他我們就能輕鬆撰寫溝通的事件，不用從最簡單連接關閉開始寫。
 

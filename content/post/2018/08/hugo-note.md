@@ -1,8 +1,8 @@
 ---
 title: "Hugo - Hugo使用筆記"
 date: 2018-08-15T00:01:09+08:00
-categories: [Hugo]
-tags: [Hugo]
+categories: "Hugo"
+tags: ["Hugo"]
 ---
 
 # 前言

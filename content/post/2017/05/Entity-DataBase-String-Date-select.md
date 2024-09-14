@@ -1,8 +1,8 @@
 ---
 title: EF - 日期區間查詢使用字串日期
 date: 2017-05-29 21:13:33
-categories: [Entity Framework]
-tags: [Entity Framework,Entity,C#]
+categories: "Entity Framework"
+tags: ["Entity Framework","Entity","C#"]
 ---
 # 前言
 其實這應該是使用SQL跳到Entity Framework(以下簡稱EF)的一種不適應，但是如果是新設計的資料庫應該都會使用datetime型態當日期的儲存格式，可是公司的舊的設計方式已經丟出去給客戶上線了，大家應該都知道以前很多人都是使用String型態來儲存日期，但是一到EF這種物件導向式的用法上就出問題了，所以這篇就是紀錄一下我查到的方法。

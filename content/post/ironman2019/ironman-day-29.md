@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day29] 部署SignalR到Server上"
 date: 2018-11-11T07:32:33+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core"]
 ---
+
 既然實作都做完了，卻只能單機自己使用好像怪怪的，至少要能開放自己的內網使用才對，所以今天要來教大家怎麼把自己的`signalR`部署到`Apache`和`IIS`
 # 安裝.Net Core RunTime
 首先先到[官網下載](https://www.microsoft.com/net/download)`Runtime`
@@ -51,6 +52,7 @@ $ dotnet <專案名>.dll
 
 ## 設置nginx代理配置
 這邊到`/usr/local/etc/nginx`底下，找不到的話可以用Finder的功能，前往然後選前往檔案夾，之後輸入路徑前往
+
 ![GoPath](GoPath.png)
 
 然後找到`nginx.conf`，找到Server節點，裡面有`listen 8080`，然後改成以下這樣
@@ -85,6 +87,7 @@ $ sudo nginx -c /usr/local/etc/nginx/nginx.conf
 $ sudo nginx -s reload
 ```
 成功後就能開起瀏覽器輸入`localhost`就能看到自己的`ASP.NET Core`程式
+
 ![nginxStart](nginxStart.png)
 
 > 註：建議改塗鴉牆範例，因為文件分享有用到websocket的一部分，導致無法同步
@@ -108,6 +111,7 @@ $ sudo brew services start nginx
 Apache我們使用`Win10`示範，首先下載[Xampp](https://www.apachefriends.org/zh_tw/index.html)，開始安裝，他會附加一堆其他東西，我們只有`Apache`就好，`php`不能取消就讓它安裝吧!
 
 ![xampp](xampp.png)
+
 然後會問要不要安裝`Bitnami`請把勾勾取消
 
 ![xampp2](xampp2.png)

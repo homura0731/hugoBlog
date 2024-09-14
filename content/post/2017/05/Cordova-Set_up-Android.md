@@ -1,8 +1,8 @@
 ---
 title: Cordova - 環境安裝2 - Android篇
 date: 2017-05-08 20:14:58
-categories: [Cordova]
-tags: [Cordova,JavaScript]
+categories: "Cordova"
+tags: ["Cordova","JavaScript"]
 ---
 # 前言
 繼上篇[Cordova安裝](https://homura0731.github.io/2017/04/Cordova-Set_up/)之後，接下來要說一下怎麼編譯成apk和使用android模擬器運行，其實我在學會使用Apache Cordova的編譯器之前，都是用Adobe Phonegap的線上編譯器，其實用久真的不是很好用，還是能在自己的PC編譯比較好，那就廢話不多說進入實作吧。

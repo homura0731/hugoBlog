@@ -1,8 +1,8 @@
 ---
 title: CSS - Animate.css 好用的CSS動畫函式庫
 date: 2017-06-01 21:37:20
-categories: [CSS]
-tags: [CSS,JavaScript,Animate.css]
+categories: "CSS"
+tags: ["CSS","JavaScript","Animate.css"]
 ---
 # 前言
 今天上班時發現好玩的Css動畫函式庫 Animate.css，由Daniel Eden製作，Soure Code也有公開是GitHub上面，回家後馬上抓來玩玩看效果還不錯，在這邊紀錄一下筆記。

@@ -1,8 +1,8 @@
 ---
 title: Vue.js - 表單驗證實作
 date: 2017-09-10 21:06:07
-categories: [Vue.js]
-tags: [JavaScript,Vue.js]
+categories: "Vue.js"
+tags: ["JavaScript", "Vue.js"]
 ---
 # 前言
 最近覺得Vue還蠻好玩的，剛好我需要挑一個前端框架來玩玩，所以就挑這個囉！

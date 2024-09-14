@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day20] 實作一個即時投票系統 (5) - 讀取建立的投票"
 date: 2018-11-02T20:50:53+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, Chart.js, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "Chart.js", "JavaScript"]
 ---
+
 今天就是即時投票系統最後一篇了，讓我們努力把它完成吧！
 
 # 讀取投票資料

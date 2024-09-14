@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day30] 來玩玩即時互動App吧! ASP.NET Core SignalR 總結 & 完賽心得"
 date: 2018-11-12T06:56:00+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core"]
 ---
+
 今天終於最後一天啦！等這天等了好久囉哈哈！，其實應該是一直被發文進度追得很苦惱才對，總之先來個總結吧！
 
 # 總結

@@ -1,8 +1,8 @@
 ---
 title: "Blog - 更換成Hugo"
 date: 2018-08-10T21:52:23+08:00
-categories: [Hugo]
-tags: [Hugo]
+categories: "Hugo"
+tags: ["Hugo"]
 ---
 # 換用Hugo的契機
 最近看到微軟某位MVP把Blogger搬到Hugo上了，然後我去Google了一下跟Hexo的差別，發現幾乎都是說Hexo太慢了.....

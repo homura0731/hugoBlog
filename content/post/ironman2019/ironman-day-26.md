@@ -1,12 +1,13 @@
 ---
 title: "[鐵人賽Day26] 實作Web即時共同編輯文件 (6) - 新增登錄畫面及選擇文件列表"
 date: 2018-11-08T16:14:18+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "ShareFile", "JavaScript"]
 ---
+
 今天我們要來做自訂表格內容和連線列表，既然建立表格的方法都訂好了，當然要能從前端建立啊!XD
 
-# 各畫面區塊建立
+## 各畫面區塊建立
 這次我想做4個畫面`登入畫面`、`文件選擇畫面`、`文件建立表單`、`文件編輯畫面`，首先把`div`區塊做出來
 ``` html
 <!-- 登入畫面 -->
@@ -41,7 +42,7 @@ var fileDiv = document.getElementById('fileDiv');
 var createFileDiv = document.getElementById('createFileDiv');
 ```
 
-# 登入畫面建立
+## 登入畫面建立
 首先我們先做登錄畫面，登入畫面只需要輸入名稱就行，因為我們沒做資料庫，不需要帳號密碼XD
 ``` html
 Name:
@@ -83,7 +84,7 @@ connectBtn.addEventListener('click', function () {
 ```
 > 註：原本的`connection.start()`記得刪除
 
-# 連線文件列表建立
+## 連線文件列表建立
 我們一樣建立一個`select`元素當列表，一樣記得給他`multiple`屬性，上面放建立文件的`button`，下面放選擇文件的`button`
 ``` html
 <button id="goCreateFileBtn" type="button">建立新文件</button>
@@ -140,7 +141,8 @@ connection.on("ReceiveFileList", function (fileListDate) {
 });
 ```
 
-# DEMO
+## DEMO
+
 ![Login](Login.gif)
 
 今天就這些，明天來完成新增文件表單及讀取文件的部分

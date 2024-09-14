@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day21] 實作Web即時共同編輯文件 (1) - 建立文件編輯介面"
 date: 2018-11-03T09:37:24+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "ShareFile", "JavaScript"]
 ---
+
 有沒有覺得第一次看到Google共用編輯文件很好玩，它把類似Excel功能搬到Web上，然後又能共同編輯，我們這次就是要來模仿做一個類似GOOGLE文件共同編輯的功能。
 
 # 頁面的建立
@@ -45,7 +46,9 @@ th, td {
 
 </table>
 ```
+
 再建立`rowCount`和`cellCount`2個變數來設定行和列，使用`document.create()`來建立元素，`createCell`用來建立cell，`createTable`用來建立`row`。
+
 ``` js
 var rowCount = 5;
 var cellCount = 5;
@@ -73,11 +76,13 @@ function createTable() {
 
 createTable();
 ```
+
 完成後得到的結果
 ![動態表格](table.gif)
 
 ## 編輯事件
 這邊我們要先做最基本的編輯處理，再我們沒編輯的Cell時，我們應該要把它給鎖上，為什麼要這樣做呢？因為再多人編輯時，你不應該同時讓超過1個人共同編輯同一`Cell`，因為這樣會非常混亂，所以我們要建立2個事件，一個是編輯時解鎖，一個是未編輯時鎖上，上鎖的方式原本我是用`disable`來達成，但是發現有些瀏覽器會造成無法觸發`click`事件，所以改用`readonly`是更好的選擇。
+
 ``` js
 // 未編輯鎖上Cell
 function cellLock() {
@@ -94,6 +99,7 @@ function cellEdit() {
 > 註：這邊的`this`應該有人不知道是什麼，如果直接執行的話`this`會是`window`，但是我們塞在`td`和`input`裡，所以會變成`td`和`input`的DOM
 
 我們要把用監聽2個事件，一個是`onblur`焦點離開元素時，一個是`onclick`焦點移動到元素上時，有點要特別注意的地方是`onclick`必須寫再`td`元素上，不然事件不會被觸發，所以上面的CellEdit才會往裡面的元素找，使用`childNodes`的方式，所以我們得修改一下建立的方式`createTable`和`createCell`。
+
 ``` js
 function createTable() {
     for (var i = 0; i < cellCount; i++) {
@@ -117,6 +123,7 @@ function createCell() {
     return input;
 }
 ```
+
 完成結果
 ![動態表格](CellLock.gif)
 

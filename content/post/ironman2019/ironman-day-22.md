@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day22] 實作Web即時共同編輯文件 (2) - 使用signalR同步文件內容"
 date: 2018-11-04T09:14:44+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "ShareFile", "JavaScript"]
 ---
+
 沒想到昨天光完成前端的部分就花那麼多時間，看來這次實作比上次難了不少，大概是因為沒使用套件的關係吧！ＸＤ
 
 那麼今天就來做signalR同步的部分吧。
@@ -12,6 +13,7 @@ tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
 我們要來想想再修改資料成功後，要怎麼回應給Server，回應格式要怎麼訂，先來訂一下後端的資料格式吧！
 ## 建立容器
 先創一個`CellModel.cs`，大致內容如下
+
 ``` cs
 using System;
 
@@ -30,7 +32,9 @@ namespace EditFileWeb.Models
     }
 }
 ```
+
 再創一個`UserModel`用來裝使用者的資訊，這邊最重要的部份是要儲存使用者的代表顏色`color`，`id`為signalR產生的`connectionid`，`name`則是需要資料庫時讀取，不過我們這邊沒用，是我先預留的。
+
 ``` cs
 using System;
 using System.Collections.Generic;
@@ -50,6 +54,7 @@ namespace EditFileWeb.Models
 ```
 
 最後再創一個`FileModel.cs`，使用泛型`Dictionary<T,T>`來裝上面的上面的`CellMode`，再一個泛型`List<T>`來裝目前編輯的使用者
+
 ``` cs
 using System;
 using System.Collections.Generic;
@@ -149,6 +154,7 @@ namespace EditFileWeb.Services
 ```
 ## 建立FileHub
 再來建立`FileHub.cs`，一樣建構子接收`FileServie`，今天先做2個方法就好`GetFile()`和`EditText()`
+
 ``` cs
 using System;
 using System.Threading.Tasks;
@@ -192,12 +198,14 @@ namespace EditFileWeb.Hubs
 ```
 
 `Starup.cs`先引用`Hub`和`Service`
+
 ``` cs
 using EditFileWeb.Hubs;
 using EditFileWeb.Services;
 ```
 
 再註冊`FileService`和signalR的Router
+
 ``` cs
 public void ConfigureServices(IServiceCollection services)
 {
@@ -226,6 +234,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 首先安裝前端signalR套件，再來最後的前端的部分，我們先把`createTable()`這方法刪掉，因為我們現在是要由後端丟回的資訊來決定怎麼畫表格。
 ## 取得資料畫出表格
 首先我們要修改畫表格的方式，連線成功後馬上取得File的資訊，呼叫`GetFile()`方法，然後再接收方法內開始畫表格，因為我們file資訊內有設定`row`和`column`，所以就輕鬆用2個for迴圈畫出來就行，然後要再迴圈內幫cell建立ID
+
 ``` js
 connection.start()
     .then(function () {
@@ -256,6 +265,7 @@ connection.on("ReceiveFile", function (file) {
 ```
 ## 建立input change的方法
 我們要在編輯表格時，邊寫資料邊回傳，所以要監聽所有input的change事件，這邊我們也可以寫在td內，因為input改變時td內的元素也會改變，有興趣可以查查JS冒泡事件，再建立一個接收用的事件，來修改所有人的表格內容。
+
 ``` js
 function change() {
     console.log(this);
@@ -289,7 +299,9 @@ connection.on("ReceiveEditText", function (cellName, text) {
 });
 
 ```
+
 最後再建立cell時填入後端傳回的值，這樣不同時間進來的人就讀到一樣的內容
+
 ``` js
 // 建立Cell
 function createCell(text) {

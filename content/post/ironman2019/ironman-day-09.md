@@ -1,8 +1,8 @@
 ---
 title: "[鐵人賽Day9] 使用MessagePack傳輸更小的資料"
 date: 2018-10-22T19:22:04+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, MessagePack]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "MessagePack"]
 ---
 
 `MessagePack`是一個類似Json格式但是比Json速度更快、檔案更小，不過似乎還沒很流行就是了，既然`ASP.Net Core SignalR`文件上面有特別提到，那我們今天就來用用看這個新的資料格式吧!

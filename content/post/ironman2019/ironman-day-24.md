@@ -1,8 +1,8 @@
 ---
 title: "[鐵人賽Day24] 實作Web即時共同編輯文件 (4) - 幫編輯中的表格添加顏色"
 date: 2018-11-06T19:32:39+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "ShareFile", "JavaScript"]
 ---
 今天要來幫編輯中的表格更換顏色，顏色就是昨天做的使用者顏色，這次是要放到編輯的`cell`內，並且鎖住不讓其他人同時編輯。
 

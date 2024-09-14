@@ -1,8 +1,8 @@
 ---
 title: "Lodash - 使用debounce做事件延遲"
 date: 2018-09-05T20:54:53+08:00
-categories: [JavaScript]
-tags: [JavaScript, Lodash, debounce]
+categories: "JavaScript"
+tags: ["JavaScript", "Lodash", "debounce"]
 ---
 # 前言
 這篇也是在IT邦幫忙解決的題目，最初問法是說做一個計時器，結果搞半天不是，

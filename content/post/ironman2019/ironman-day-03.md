@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day3] 第一個SingalR專案"
 date: 2018-10-16T19:44:57+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.Net Core]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.Net Core"]
 ---
+
 # 前言
 我想先帶大家做一遍，之後再開始講觀念，因為我覺得這樣會比較好玩一點XD。
 # 建立Web專案

@@ -1,8 +1,8 @@
 ---
 title: EF - 實作資料分頁
 date: 2017-06-10 14:47:35
-categories: [Entity Framework]
-tags: [Entity Framework,Entity,C#]
+categories: "Entity Framework"
+tags: ["Entity Framework", "Entity", "C#"]
 ---
 # 前言
 其實資料分頁在.net已經有很多好用的套件或是現成物件可以用了，例如WebForm的GridView和MVC的PagedList.Mvc，但是以前我還在寫PHP的時候，其實這些東西完全不需要使用這些東西，只要sql語法就能做到，所以這篇我寫紀錄一下不依賴這些東西就能完成的方法。

@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day6] SignalR 前端API運用"
 date: 2018-10-19T14:43:05+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "JavaScript"]
 ---
+
 # 連接事件
 建立連線，我們需要建立一個連線物件，`withUrl(Hub)`裡的參數放入要連接的Hub名稱，再用`build()`建立連線物件。
 ``` js

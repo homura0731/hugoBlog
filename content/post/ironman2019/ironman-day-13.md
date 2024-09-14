@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day13] 實作一個共用塗鴉牆 (2) - signal同步畫板"
 date: 2018-10-26T10:52:26+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "JavaScript"]
 ---
+
 今天要來做塗鴉牆第2部分，首先我們得想想該回傳些什麼，制定一個Json格式回傳回去。
 # 前端部分
 連接部分程式碼先寫好

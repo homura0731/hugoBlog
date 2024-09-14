@@ -1,8 +1,8 @@
 ---
 title: "JS - 步驟紀錄器實作"
 date: 2018-09-08T21:12:17+08:00
-categories: [JavaScript]
-tags: [JavaScript, history recoder, debounce]
+categories: "JavaScript"
+tags: ["JavaScript", "history recoder", "debounce"]
 ---
 # 前言
 昨天有人問了一題有趣的題目，內容是問要怎麼實作編輯器得上一步下一步動作，也是就是說要做一個步驟紀錄器，覺得沒做過這種東西覺得好像蠻有趣的，

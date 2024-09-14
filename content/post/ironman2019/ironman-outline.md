@@ -2,8 +2,8 @@
 title: "[2019鐵人賽] 鐵人賽2018大綱"
 date: 2018-09-03T20:49:28+08:00
 draft: true
-categories: [2019鐵人賽]
-tags: [2019鐵人賽]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽"]
 ---
 
 1. ASP.Net Core SignalR 簡介

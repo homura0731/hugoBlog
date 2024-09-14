@@ -1,8 +1,8 @@
 ---
 title: "IT日常 - IT邦升級研究生和報名鐵人賽"
 date: 2018-09-10T20:52:41+08:00
-categories: [IT日常]
-tags: [IT日常]
+categories: "IT日常"
+tags: ["IT日常"]
 ---
 以往都是看著IT邦各位大大的文章，就在某次看到了`Vue.js`的[問題](https://ithelp.ithome.com.tw/questions/10189197)讓我也
 辦了IT邦會員~~於是開始了玩論壇不歸路~~，然後解開了一題之後讓我一直覺得躍躍欲試，還順便辦了MSDN，MSDN排名還曾經超越MVP過....。

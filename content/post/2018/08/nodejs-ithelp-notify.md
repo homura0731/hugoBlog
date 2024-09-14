@@ -2,8 +2,8 @@
 title: "Node.js - IT邦新文章通知小工具"
 date: 2018-08-16T22:43:43+08:00
 draft: true
-categories: [Node.js]
-tags: [Node.js]
+categories: "Node.js"
+tags: ["Node.js"]
 ---
 # 前言
 最近覺得看IT邦的新問題，每次都要一直F5覺得很麻煩，去年的鐵人賽有的很好玩的爬蟲主題[爬蟲始終來自惰性](https://ithelp.ithome.com.tw/users/20107159/ironman/1325)

@@ -1,8 +1,9 @@
 ---
 title: "[鐵人賽Day25] 實作Web即時共同編輯文件 (5) - 一些小功能修正"
 date: 2018-11-07T19:27:26+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core, ShareFile, JavaScript]
+slug: ironman-day-25
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core", "ShareFile", "JavaScript"]
 ---
 今天是一些小地方的修正，其實做到這邊還有很多需要修正的地方，一個是重整後編輯中的顏色不會重新讀取，一個是編輯中關閉不會回船取消編輯，就是在編輯的人沒移開編輯中的`cell`，會造成沒回傳取消編輯的狀態，今天就來修正一下這些問題吧！
 
@@ -81,6 +82,7 @@ cell.addEventListener('input', _.debounce(change, 300));
 ```
 
 ## DEMO
+
 ![Debounce](Debounce.gif)
 
 # 讀取文件換成變數

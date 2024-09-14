@@ -1,8 +1,8 @@
 ---
 title: "[鐵人賽Day8] 使用Json傳遞訊息和跨網域驗證"
 date: 2018-10-21T09:42:05+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, ASP.NET Core]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "ASP.NET Core"]
 ---
 
 今天要來講講怎麼使用JSON傳遞訊息及跨網域訊息。

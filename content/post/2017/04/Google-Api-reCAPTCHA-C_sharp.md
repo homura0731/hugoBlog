@@ -1,8 +1,8 @@
 ---
 title: Google API - 圖形驗證reCAPTCHA使用C#
 date: 2017-04-18 20:34:16
-categories: [ASP.NET]
-tags: [C#,Google-API,JavaScript,reCAPTCHA]
+categories: "ASP.NET"
+tags: ["C#","Google-API","JavaScript","reCAPTCHA"]
 ---
 # 前言
 由於最近遇到有學生暴力破解公司寫的校園平台，至於為什麼會被破解，因為當初的人沒有寫驗證類的機制(汗)，於是只好馬上開始幫忙把登入頁面重新寫一遍，要擋暴力破解的方法第一個想到的就是驗證碼，稍微google了一下發現普通的驗證碼還不少都被破解，找了半天覺得Google的reCAPTCHA還不錯，於是就決定使用這個了，然後就開始說明吧!

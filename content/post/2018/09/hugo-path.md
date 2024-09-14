@@ -1,8 +1,8 @@
 ---
 title: "Hugo - 文件路徑問題"
 date: 2018-09-15T20:19:23+08:00
-categories: [Hugo]
-tags: [Hugo, Git]
+categories: "Hugo"
+tags: ["Hugo", "Git"]
 ---
 # 前言
 最近發現Hugo有些路徑問題，這篇記錄一下解決方法

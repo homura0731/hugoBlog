@@ -1,9 +1,10 @@
 ---
 title: "[鐵人賽Day1] ASP.Net Core SignalR 導讀"
 date: 2018-10-14T19:39:50+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR"]
 ---
+
 今天第一天來點輕鬆的，我們來說說SignalR是什麼?
 
 # ASP.NET Core SignalR是什麼？

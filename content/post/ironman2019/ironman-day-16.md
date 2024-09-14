@@ -1,11 +1,12 @@
 ---
 title: "[鐵人賽Day16] 實作一個即時投票系統 (1) - 投票介面建置"
 date: 2018-10-29T19:37:26+08:00
-categories: [2019鐵人賽]
-tags: [2019鐵人賽, SignalR, Chart.js, JavaScript]
+categories: "2019鐵人賽"
+tags: ["2019鐵人賽", "SignalR", "Chart.js", "JavaScript"]
 ---
 今天我們要來實作一個即時投票系統，前端的圖表呈現部分，我們要依賴`Chart.js`這個JS函式庫，所以今天就先來帶大家瞭解一下`Chart.js`大概的使用方法。
 首先創立一個新專案
+
 ``` shell
 dotnet new web -o VoteWeb
 ```
@@ -13,20 +14,26 @@ Signal套件該裝的弄好，忘記的回去看Day3
 
 # 安裝Chart.js
 CDN引入
+
 ``` html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 ```
+
 或NPM安裝
+
 ``` shell
 $ npm install chart.js --save
 ```
 # 使用Chart.js
 由於Chart.js是使用`Canvas`元素來畫報表的，所以先建立一個`Canvas`
+
 ``` html
 <canvas id="myChart"></canvas>
 ```
+
 ## 開始繪製圖表
 `Chart.js`的繪圖，只要照官方給定的格式，丟進Chart物件中，Chart.js就會幫我們畫出來，然後我們把官方給的範例套進去，物件格式大概像下面這樣
+
 ``` js
 var chartData =
 {
@@ -78,6 +85,7 @@ var chartData =
 - options：圖表設定
 
 然後我們照官方範例做一遍，只要呼叫出`Chart.js`物件，把Canvas和資料塞進去就行。
+
 ``` js
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, chartData);
@@ -85,6 +93,7 @@ var myChart = new Chart(ctx, chartData);
 > 註：記得`new Chart`要放在`chartData`下面
 
 這時候執行應該就能看到圖表了，但是大小卻是充滿整個瀏覽器，所以我們要再Canvas外面包一個`<div>`元素，再給他長寬限制
+
 ``` html
 <style>
     .canvas {
@@ -96,12 +105,14 @@ var myChart = new Chart(ctx, chartData);
 </div>
 
 ```
+
 > 註：我發現限制height沒有作用，所以限制width就好
 
 ## 使用Chart.js API
 接下來我們要讓圖表重新繪製，修改資料的方式有2種，一種是把資料放在一個變數裡修改，或是直接呼叫Chart.js物件，進到物件變數裡修改，之後再使用API的`.update()`重繪，圖表這時就會整個重新繪製。
 
 首先我們要做一些投票的按鈕，投票和反對票分開2種按鈕 
+
 ``` html
 <div>
     <button id="red" type="button">Red +</button>
@@ -120,7 +131,9 @@ var myChart = new Chart(ctx, chartData);
     <button id="orange2" type="button">Orange -</button>
 </div>
 ```
+
 JS載入DOM元素
+
 ``` js
 // 投票按鈕
 var red = document.getElementById('red');
@@ -191,6 +204,7 @@ orange2.onclick = function(){
     myChart.update();
 }
 ```
+
 這樣大概就完成了，下一篇就是SignalR的連接了。
 
 ## DEMO
@@ -201,5 +215,6 @@ orange2.onclick = function(){
 
 
 # 參考 & 範例下載
+
 - [Chart.js官方文件](http://www.chartjs.org/docs/latest/developers/api.html)
 - [範例下載](https://drive.google.com/file/d/1siiGw_2zK14l_Z6kLOPwRXRy88UnK1K_/view?usp=sharing)
